@@ -124,7 +124,7 @@
             font-weight: 400;
         }
 
-        .hero-sub span { margin: 0 0.75rem; opacity: 0.3; }
+        .hero-sub .hero-sep { margin: 0 0.75rem; opacity: 0.3; }
 
         /* STATEMENT */
         .statement {
@@ -420,6 +420,8 @@
             .notable-grid { grid-template-columns: 1fr; }
             .skills-columns { grid-template-columns: 1fr 1fr; gap: 2rem; }
             .edu-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+            .hero-sub { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+            .hero-sep { display: none; }
         }
 
         @media (max-width: 480px) {
@@ -456,7 +458,7 @@
         <div class="hero-inner">
             <h1>emma<br>berrigan.</h1>
             <p class="hero-sub">
-                creative director <span>/</span> videographer <span>/</span> social media
+                <span class="hero-role">creative director</span><span class="hero-sep">/</span><span class="hero-role">videographer</span><span class="hero-sep">/</span><span class="hero-role">social media</span>
             </p>
         </div>
     </section>
