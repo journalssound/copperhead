@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emma Berrigan</title>
+
+    <!-- Open Graph / Link Preview -->
+    <meta property="og:title" content="emma berrigan.">
+    <meta property="og:description" content="Creative Director / Videographer / Social Media">
+    <meta property="og:image" content="https://emma-berrigan.pages.dev/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="emma berrigan.">
+    <meta name="twitter:description" content="Creative Director / Videographer / Social Media">
+    <meta name="twitter:image" content="https://emma-berrigan.pages.dev/og-image.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rust: #B7491E;
+            --rust-light: #D4633A;
+            --cream: #F2EDE4;
+            --warm-white: #FAF8F4;
+            --charcoal: #1E1A17;
+            --sand: #C4B5A0;
+            --earth: #6B5B4E;
+            --terra: #A67B5B;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        section[id] { scroll-margin-top: 80px; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--charcoal);
+            color: var(--warm-white);
+            overflow-x: hidden;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: transparent;
+            transition: background 0.3s;
+        }
+
+        nav.scrolled {
+            background: rgba(30, 26, 23, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-logo {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: var(--warm-white);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--warm-white);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover { opacity: 1; }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            background: var(--charcoal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 3rem;
+        }
+
+        .hero-inner { max-width: 1100px; }
+
+        .hero h1 {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: clamp(4rem, 12vw, 10rem);
+            line-height: 0.92;
+            color: var(--warm-white);
+            letter-spacing: -0.03em;
+            margin-bottom: 3rem;
+        }
+
+        .hero-sub {
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--sand);
+            font-weight: 400;
+        }
+
+        .hero-sub span { margin: 0 0.75rem; opacity: 0.3; }
+
+        /* STATEMENT */
+        .statement {
+            background: var(--rust);
+            padding: 8rem 3rem;
+            text-align: center;
+        }
+
+        .statement p {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: clamp(1.8rem, 5vw, 3.5rem);
+            line-height: 1.2;
+            color: var(--warm-white);
+            max-width: 900px;
+            margin: 0 auto;
+            letter-spacing: -0.02em;
+        }
+
+        /* EXPERIENCE */
+        .experience {
+            background: var(--warm-white);
+            color: var(--charcoal);
+            padding: 6rem 3rem;
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: var(--earth);
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .exp-list { max-width: 900px; margin: 0 auto; }
+
+        .exp-item {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 3rem;
+            padding: 2.5rem 0;
+            border-bottom: 1px solid var(--cream);
+            align-items: start;
+        }
+
+        .exp-item:last-child { border-bottom: none; }
+
+        .exp-dates {
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            color: var(--earth);
+            font-weight: 400;
+            padding-top: 0.3rem;
+        }
+
+        .exp-right h3 {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: 1.4rem;
+            line-height: 1.2;
+            color: var(--charcoal);
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        .exp-company {
+            font-size: 0.85rem;
+            color: var(--rust);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .exp-bullets {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .exp-bullets li {
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: var(--earth);
+        }
+
+        .exp-bullets li::before {
+            content: '\2014\0020';
+            color: var(--rust);
+        }
+
+        /* NOTABLE WORK */
+        .notable {
+            background: var(--charcoal);
+            padding: 6rem 3rem;
+        }
+
+        .notable .section-label { color: var(--sand); }
+
+        .notable-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .notable-item {
+            padding: 2.5rem;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: background 0.3s;
+        }
+
+        .notable-item:hover { background: rgba(255,255,255,0.03); }
+
+        .notable-tag {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--rust-light);
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+
+        .notable-item h3 {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: 1.25rem;
+            color: var(--warm-white);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .notable-item p {
+            font-size: 0.82rem;
+            line-height: 1.6;
+            color: var(--sand);
+        }
+
+        /* SKILLS */
+        .skills {
+            background: var(--cream);
+            color: var(--charcoal);
+            padding: 6rem 3rem;
+        }
+
+        .skills-inner { max-width: 900px; margin: 0 auto; }
+
+        .skills-columns {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .skill-col h3 {
+            font-family: 'Fraunces', serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--rust);
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .skill-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .skill-col li {
+            font-size: 0.82rem;
+            color: var(--earth);
+            line-height: 1.5;
+        }
+
+        /* EDUCATION */
+        .education {
+            background: var(--warm-white);
+            color: var(--charcoal);
+            padding: 6rem 3rem;
+        }
+
+        .edu-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .edu-block h3 {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: 1.3rem;
+            color: var(--charcoal);
+            margin-bottom: 0.35rem;
+            letter-spacing: -0.02em;
+        }
+
+        .edu-school {
+            font-size: 0.9rem;
+            color: var(--rust);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .edu-date { font-size: 0.8rem; color: var(--earth); }
+
+        .cert-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .cert-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--rust);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .cert-name { font-size: 0.9rem; color: var(--charcoal); }
+
+        /* CONTACT / FOOTER */
+        .contact {
+            background: var(--rust);
+            padding: 8rem 3rem;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: clamp(2.5rem, 7vw, 5.5rem);
+            color: var(--warm-white);
+            letter-spacing: -0.03em;
+            line-height: 0.95;
+            margin-bottom: 3rem;
+        }
+
+        .contact-row {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: 1.5px solid rgba(255,255,255,0.3);
+            border-radius: 100px;
+            color: var(--warm-white);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .contact-pill:hover {
+            background: var(--warm-white);
+            color: var(--rust);
+            border-color: var(--warm-white);
+        }
+
+        .footer {
+            background: var(--charcoal);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .footer p {
+            font-size: 0.65rem;
+            color: var(--earth);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav { padding: 1.25rem 1.5rem; }
+            .nav-links { display: none; }
+            .hero, .statement, .experience, .notable, .skills, .education, .contact { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+            .notable-grid { grid-template-columns: 1fr; }
+            .skills-columns { grid-template-columns: 1fr 1fr; gap: 2rem; }
+            .edu-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .skills-columns { grid-template-columns: 1fr; }
+        }
+
+        /* ANIMATIONS */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="nav">
+        <a href="#" class="nav-logo">emma berrigan.</a>
+        <ul class="nav-links">
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <h1>emma<br>berrigan.</h1>
+            <p class="hero-sub">
+                creative director <span>/</span> videographer <span>/</span> social media
+            </p>
+        </div>
+    </section>
+
+    <section class="statement">
+        <p class="fade-in">a multidisciplinary creative directing and producing video content across commercial, documentary, reality TV, and social media &mdash; from concept through post-production.</p>
+    </section>
+
+    <section class="experience" id="experience">
+        <p class="section-label">Experience</p>
+        <div class="exp-list">
+
+            <div class="exp-item fade-in">
+                <p class="exp-dates">2025 &mdash; Present</p>
+                <div class="exp-right">
+                    <h3>Head of Video Production &amp; Social Media</h3>
+                    <p class="exp-company">Secret Disco Society &mdash; Austin, TX</p>
+                    <ul class="exp-bullets">
+                        <li>Lead the video production team and manage all social media channels for a rapidly growing electronic music collective (34K+ followers)</li>
+                        <li>Responsible for all YouTube content, longform and short form, from concepting through production to post-production</li>
+                        <li>Concept and write viral scripts and creative ideas for director-led camera content</li>
+                        <li>Edit short-form content with virality and audience engagement as core objectives</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="exp-item fade-in">
+                <p class="exp-dates">2023 &mdash; Present</p>
+                <div class="exp-right">
+                    <h3>Creative Director</h3>
+                    <p class="exp-company">EMSKI &mdash; Austin, TX</p>
+                    <ul class="exp-bullets">
+                        <li>Serves as the sole creative director for EMSKI, an electronic artist with releases on mau5trap, Monstercat, Ophelia Records, Sable Valley, Bitbird, and Hexagon</li>
+                        <li>Directs all visual identity, branding, and creative strategy across the artist project</li>
+                        <li>Leads content creation and social media direction, helping grow EMSKI's TikTok to 30K+ followers and nearly 1M likes</li>
+                        <li>Oversees creative for live show visuals, promotional campaigns, and release rollouts for festivals including ILLFEST, Freaky Deaky, and Seismic</li>
+                        <li>Develops and produces video content for artist socials, YouTube, and press materials alongside stages shared with Deadmau5, LP Giobbi, Golden Features, and Alt-J</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="exp-item fade-in">
+                <p class="exp-dates">2025 &mdash; 2026</p>
+                <div class="exp-right">
+                    <h3>Social Media Manager</h3>
+                    <p class="exp-company">Quack's Bakery &mdash; Austin, TX</p>
+                    <ul class="exp-bullets">
+                        <li>Managed social media for Austin's original scratch bakery and espresso caf&eacute;, established 1983 with three locations</li>
+                        <li>Created assets for weekly product releases, including photo and video content highlighting seasonal items and brand identity</li>
+                        <li>Concepted viral TikTok content and managed posting schedules through Metricool</li>
+                        <li>Conducted market research and reviewed data analytics to inform content strategy and drive engagement</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="exp-item fade-in">
+                <p class="exp-dates">2021 &mdash; Present</p>
+                <div class="exp-right">
+                    <h3>Freelance Videographer / Video Editor</h3>
+                    <p class="exp-company">Freelance &mdash; Austin, TX</p>
+                    <ul class="exp-bullets">
+                        <li>Directed and supported creative execution across B2B commercial content, reality TV, documentary, and live events</li>
+                        <li>Served in key production roles: Camera Operator, 1st AC, and Assistant Director</li>
+                        <li>Contributed to a Discovery+ reality series with Kesha, Meta corporate content, and product shoots</li>
+                        <li>Edited short-form video content and UGC for influencers partnered with Nibble</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="exp-item fade-in">
+                <p class="exp-dates">Jan &mdash; Jun 2025</p>
+                <div class="exp-right">
+                    <h3>Social-First Video Editor</h3>
+                    <p class="exp-company">Nibble &mdash; Austin, TX</p>
+                    <ul class="exp-bullets">
+                        <li>Collaborated with UGC creators and brands to translate vision and voice into final edits</li>
+                        <li>Researched and implemented current trends in editing techniques across projects</li>
+                        <li>Developed innovative concepts and storyboards with the creative team</li>
+                        <li>Managed multiple projects simultaneously under tight deadlines</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="exp-item fade-in">
+                <p class="exp-dates">2021 &mdash; 2024</p>
+                <div class="exp-right">
+                    <h3>Associate Creative Director</h3>
+                    <p class="exp-company">SWNG Productions &mdash; Austin, TX</p>
+                    <ul class="exp-bullets">
+                        <li>Directed creative across photography, video, and digital campaigns from pitch to final delivery</li>
+                        <li>Clients: Meta, Indeed, Whataburger, Grove, Idea, JVN</li>
+                        <li>Built compelling decks for high-profile project bids across entertainment, music, and tech</li>
+                        <li>Led RFP development, creative ideation, scriptwriting, shot listing, and scheduling</li>
+                        <li>Utilized Unreal Engine 5 to design 3D virtual production environments</li>
+                        <li>Led projects end-to-end through pre-production, production, and post</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="notable" id="work">
+        <p class="section-label">Notable Work</p>
+        <div class="notable-grid">
+            <div class="notable-item fade-in">
+                <p class="notable-tag">Reality Television</p>
+                <h3>Discovery+ / Kesha</h3>
+                <p>Production crew on a Discovery+ reality series featuring Kesha.</p>
+            </div>
+            <div class="notable-item fade-in">
+                <p class="notable-tag">Brand &amp; Commercial</p>
+                <h3>Meta / Indeed / Whataburger</h3>
+                <p>Directed creative campaigns from pitch to delivery for major brands at SWNG Productions.</p>
+            </div>
+            <div class="notable-item fade-in">
+                <p class="notable-tag">Social Media</p>
+                <h3>Secret Disco Society</h3>
+                <p>Built and led the video and social media pipeline for a 34K+ following electronic music collective.</p>
+            </div>
+            <div class="notable-item fade-in">
+                <p class="notable-tag">Virtual Production</p>
+                <h3>Unreal Engine 5</h3>
+                <p>Designed and executed 3D virtual production environments for commercial projects.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="skills" id="skills">
+        <p class="section-label" style="color: var(--earth);">Skills &amp; Tools</p>
+        <div class="skills-inner">
+            <div class="skills-columns fade-in">
+                <div class="skill-col">
+                    <h3>Video &amp; Post</h3>
+                    <ul>
+                        <li>Adobe Premiere Pro</li>
+                        <li>After Effects</li>
+                        <li>Final Cut Pro</li>
+                        <li>DaVinci Resolve</li>
+                        <li>Motion Graphics</li>
+                        <li>Color Grading</li>
+                        <li>Voiceover Editing</li>
+                        <li>Multicam Production</li>
+                    </ul>
+                </div>
+                <div class="skill-col">
+                    <h3>3D &amp; VFX</h3>
+                    <ul>
+                        <li>Unreal Engine 5</li>
+                        <li>Unity</li>
+                        <li>Maya</li>
+                        <li>Blender</li>
+                        <li>3ds Max</li>
+                        <li>ZBrush</li>
+                        <li>3D Animation</li>
+                    </ul>
+                </div>
+                <div class="skill-col">
+                    <h3>Design</h3>
+                    <ul>
+                        <li>Adobe Photoshop</li>
+                        <li>Illustrator</li>
+                        <li>Adobe Creative Suite</li>
+                        <li>Art Direction</li>
+                        <li>Content Creation</li>
+                    </ul>
+                </div>
+                <div class="skill-col">
+                    <h3>Social Media</h3>
+                    <ul>
+                        <li>Content Strategy</li>
+                        <li>TikTok / Instagram Reels</li>
+                        <li>YouTube (Long &amp; Short Form)</li>
+                        <li>Metricool</li>
+                        <li>Data Analytics &amp; Market Research</li>
+                    </ul>
+                </div>
+                <div class="skill-col">
+                    <h3>Production</h3>
+                    <ul>
+                        <li>Creative Direction</li>
+                        <li>Project Management</li>
+                        <li>Production Planning</li>
+                        <li>Scriptwriting</li>
+                        <li>Drone Operation (FAA)</li>
+                        <li>Social Media Strategy</li>
+                    </ul>
+                </div>
+                <div class="skill-col">
+                    <h3>Other</h3>
+                    <ul>
+                        <li>SQL</li>
+                        <li>Microsoft Office</li>
+                        <li>Research &amp; Analysis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="education" id="education">
+        <p class="section-label" style="color: var(--earth);">Education &amp; Certifications</p>
+        <div class="edu-inner">
+            <div class="edu-block fade-in">
+                <h3>Arts &amp; Entertainment Technologies</h3>
+                <p class="edu-school">The University of Texas at Austin</p>
+                <p class="edu-date">B.S. &mdash; 2017 &ndash; 2021</p>
+            </div>
+            <div class="edu-block fade-in">
+                <h3>Certifications</h3>
+                <div class="cert-item">
+                    <div class="cert-dot"></div>
+                    <span class="cert-name">FAA Remote Pilot Certificate</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2>let's create<br>something.</h2>
+        <div class="contact-row">
+            <a href="mailto:emmaberrigan3254&#64;gmail.com" class="contact-pill">Email</a>
+            <a href="tel:+12103322843" class="contact-pill">Phone</a>
+            <a href="https://www.linkedin.com/in/emma-berrigan-498765152/" target="_blank" class="contact-pill">LinkedIn</a>
+            <a href="https://youtu.be/a4U56IebCow" target="_blank" class="contact-pill">Reel</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 Emma Berrigan</p>
+    </footer>
+
+    <script>
+        var obs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.fade-in').forEach(function(el) { obs.observe(el); });
+
+        var navEl = document.getElementById('nav');
+        window.addEventListener('scroll', function() {
+            navEl.classList.toggle('scrolled', window.scrollY > 60);
+        });
+    </script>
+
+</body>
+</html>
