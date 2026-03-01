@@ -213,7 +213,7 @@
 
                 if (res.ok) {
                     const data = await res.json();
-                    window.location.href = data.role === 'admin' ? '/admin' : '/';
+                    window.location.href = data.role === 'admin' ? '/admin' : '/portal';
                 } else {
                     errorEl.classList.add('show');
                 }

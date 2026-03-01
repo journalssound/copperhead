@@ -25,8 +25,8 @@ app.use('/css', express.static(path.join(__dirname, 'public/css')));
 app.use('/js', express.static(path.join(__dirname, 'public/js')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Main Copperhead site (public)
-app.get('/home', (req, res) => {
+// Main Copperhead homepage (public)
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 // Serve main site assets (videos, images) from parent directory
@@ -81,7 +81,7 @@ function requireAdmin(req, res, next) {
 // Login page (public)
 app.get('/login', (req, res) => {
   if (req.session && req.session.authenticated) {
-    return res.redirect(req.session.role === 'admin' ? '/admin' : '/');
+    return res.redirect(req.session.role === 'admin' ? '/admin' : '/portal');
   }
   res.sendFile(path.join(__dirname, 'public/login.html'));
 });
@@ -112,7 +112,7 @@ app.post('/api/logout', (req, res) => {
 // ──────────────────────────────────────────
 // Protected routes
 // ──────────────────────────────────────────
-app.get('/', requireAuth, (req, res) => {
+app.get('/portal', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
@@ -209,11 +209,11 @@ app.delete('/api/assets/:id', requireAuth, (req, res) => {
 // ──────────────────────────────────────────
 // Start
 // ──────────────────────────────────────────
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n  ┌──────────────────────────────────────┐`);
   console.log(`  │                                      │`);
   console.log(`  │   copperhead portal running          │`);
-  console.log(`  │   http://localhost:${PORT}              │`);
+  console.log(`  │   http://0.0.0.0:${PORT}              │`);
   console.log(`  │                                      │`);
   console.log(`  │   client: journals.                  │`);
   console.log(`  │   admin:  journals.@admin             │`);
