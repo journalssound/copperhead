@@ -1,0 +1,8 @@
+node_modules/
+uploads/
+dist/
+*.mp4
+*.mov
+*.avi
+.DS_Store
+/tmp/

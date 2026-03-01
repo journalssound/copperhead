@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copperhead Media</title>
+
+    <!-- Open Graph / Link Preview -->
+    <meta property="og:title" content="copperhead.">
+    <meta property="og:description" content="Video Production / Social Media / Creative Strategy">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="copperhead.">
+    <meta name="twitter:description" content="Video Production / Social Media / Creative Strategy">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://use.typekit.net/sag3htb.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --rust: #B7491E;
+            --rust-light: #D4633A;
+            --cream: #F2EDE4;
+            --warm-white: #FAF8F4;
+            --charcoal: #1E1A17;
+            --sand: #C4B5A0;
+            --earth: #6B5B4E;
+            --terra: #A67B5B;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        section[id] { scroll-margin-top: 80px; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--charcoal);
+            color: var(--warm-white);
+            overflow-x: hidden;
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: transparent;
+            transition: background 0.4s, box-shadow 0.4s;
+        }
+
+        nav.scrolled {
+            background: rgba(30, 26, 23, 0.95);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 1px 0 rgba(255,255,255,0.04);
+        }
+
+        .nav-logo {
+            font-family: 'recoleta', serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: var(--warm-white);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--warm-white);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover { opacity: 1; }
+
+        .nav-portal {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 1.1rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px;
+            color: var(--warm-white);
+            text-decoration: none;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            margin-left: 0.5rem;
+        }
+
+        .nav-portal:hover {
+            opacity: 1;
+            border-color: var(--rust);
+            background: rgba(183, 73, 30, 0.1);
+        }
+
+        .nav-portal svg {
+            width: 13px;
+            height: 13px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            background: var(--charcoal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(183, 73, 30, 0.08) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            max-width: 1100px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'recoleta', serif;
+            font-weight: 900;
+            font-size: clamp(4rem, 12vw, 10rem);
+            line-height: 0.92;
+            color: var(--warm-white);
+            letter-spacing: -0.03em;
+            margin-bottom: 2rem;
+        }
+
+        .hero-tagline {
+            font-family: 'recoleta', serif;
+            font-weight: 400;
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: var(--sand);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.5;
+            letter-spacing: -0.01em;
+        }
+
+        .hero-sub {
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--sand);
+            font-weight: 400;
+        }
+
+        .hero-sub .hero-sep { margin: 0 0.75rem; opacity: 0.3; }
+
+        .hero-badge {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--rust-light);
+            font-weight: 500;
+            margin-top: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 2.5rem;
+            padding: 1rem 2.25rem;
+            border: 1.5px solid var(--rust);
+            border-radius: 100px;
+            color: var(--warm-white);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.35s ease;
+            background: transparent;
+        }
+
+        .hero-cta:hover {
+            background: var(--rust);
+            border-color: var(--rust);
+        }
+
+        .hero-cta svg {
+            width: 14px;
+            height: 14px;
+            transition: transform 0.3s;
+        }
+
+        .hero-cta:hover svg { transform: translateX(3px); }
+
+        /* ===== STATEMENT ===== */
+        .statement {
+            background: var(--rust);
+            padding: 8rem 3rem;
+            text-align: center;
+        }
+
+        .statement p {
+            font-family: 'recoleta', serif;
+            font-weight: 900;
+            font-size: clamp(1.8rem, 5vw, 3.5rem);
+            line-height: 1.2;
+            color: var(--warm-white);
+            max-width: 900px;
+            margin: 0 auto;
+            letter-spacing: -0.02em;
+        }
+
+        /* ===== SECTION LABEL ===== */
+        .section-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: var(--sand);
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        /* ===== PORTFOLIO ===== */
+        .portfolio {
+            background: var(--charcoal);
+            padding: 8rem 3rem;
+            position: relative;
+        }
+
+        .portfolio-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .portfolio-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+
+        .portfolio-item.featured {
+            grid-column: 1 / -1;
+        }
+
+        .portfolio-video-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            background: #0d0b09;
+        }
+
+        .portfolio-item.featured .portfolio-video-wrap {
+            aspect-ratio: 21 / 9;
+        }
+
+        .portfolio-video-wrap video,
+        .portfolio-video-wrap iframe {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .portfolio-video-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1512 0%, #0d0b09 100%);
+            position: relative;
+        }
+
+        .portfolio-video-placeholder::after {
+            content: '';
+            width: 64px;
+            height: 64px;
+            border: 2px solid rgba(255,255,255,0.15);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .portfolio-video-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-40%, -50%);
+            border-style: solid;
+            border-width: 10px 0 10px 18px;
+            border-color: transparent transparent transparent rgba(255,255,255,0.3);
+            z-index: 1;
+        }
+
+        .portfolio-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            width: 72px;
+            height: 72px;
+            border: 2px solid rgba(255,255,255,0.25);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 2;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        .portfolio-play-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--warm-white);
+            margin-left: 3px;
+        }
+
+        .portfolio-item:hover .portfolio-play-btn {
+            transform: translate(-50%, -50%) scale(1.1);
+            border-color: var(--rust);
+            background: rgba(183, 73, 30, 0.6);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 3rem 2rem 2rem;
+            background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%);
+            z-index: 3;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .portfolio-item.featured .portfolio-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .portfolio-tag {
+            font-size: 0.6rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--rust-light);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-overlay h3 {
+            font-family: 'recoleta', serif;
+            font-weight: 900;
+            font-size: 1.4rem;
+            color: var(--warm-white);
+            margin-bottom: 0.4rem;
+            letter-spacing: -0.02em;
+        }
+
+        .portfolio-item.featured .portfolio-overlay h3 {
+            font-size: 2rem;
+        }
+
+        .portfolio-overlay p {
+            font-size: 0.82rem;
+            line-height: 1.6;
+            color: var(--sand);
+            max-width: 500px;
+        }
+
+        /* Staggered fade-in for portfolio items */
+        .portfolio-item.fade-in { transition-delay: 0s; }
+        .portfolio-item.fade-in:nth-child(2) { transition-delay: 0.1s; }
+        .portfolio-item.fade-in:nth-child(3) { transition-delay: 0.2s; }
+        .portfolio-item.fade-in:nth-child(4) { transition-delay: 0.3s; }
+        .portfolio-item.fade-in:nth-child(5) { transition-delay: 0.35s; }
+
+        /* ===== SERVICES ===== */
+        .services {
+            background: var(--warm-white);
+            color: var(--charcoal);
+            padding: 8rem 3rem;
+        }
+
+        .services .section-label { color: var(--earth); }
+
+        .services-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .service-card {
+            padding: 2.5rem 2rem;
+            border: 1px solid var(--cream);
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--rust);
+            transform: scaleX(0);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-origin: left;
+        }
+
+        .service-card:hover::before { transform: scaleX(1); }
+
+        .service-card:hover {
+            border-color: var(--sand);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+            transform: translateY(-4px);
+        }
+
+        .service-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 1.5rem;
+            color: var(--rust);
+        }
+
+        .service-card h3 {
+            font-family: 'recoleta', serif;
+            font-weight: 900;
+            font-size: 1.25rem;
+            color: var(--charcoal);
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+
+        .service-card p {
+            font-size: 0.85rem;
+            line-height: 1.65;
+            color: var(--earth);
+        }
+
+        /* ===== PACKAGES ===== */
+        .packages {
+            background: var(--charcoal);
+            padding: 8rem 3rem;
+        }
+
+        .packages-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .package-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 3rem 2.5rem;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .package-card:hover {
+            border-color: rgba(255,255,255,0.12);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .package-card.highlight {
+            border-color: var(--rust);
+            background: rgba(183, 73, 30, 0.08);
+        }
+
+        .package-badge {
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--rust);
+            color: var(--warm-white);
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 600;
+            padding: 0.4rem 1.25rem;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .package-name {
+            font-family: 'recoleta', serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--warm-white);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .package-desc {
+            font-size: 0.82rem;
+            color: var(--sand);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .package-price {
+            font-family: 'recoleta', serif;
+            font-weight: 900;
+            font-size: 2.5rem;
+            color: var(--warm-white);
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.03em;
+        }
+
+        .package-price span {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--sand);
+            letter-spacing: 0;
+        }
+
+        .package-period {
+            font-size: 0.75rem;
+            color: var(--earth);
+            margin-bottom: 2.5rem;
+        }
+
+        .package-divider {
+            width: 100%;
+            height: 1px;
+            background: rgba(255,255,255,0.06);
+            margin-bottom: 2rem;
+        }
+
+        .package-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 2.5rem;
+            flex-grow: 1;
+        }
+
+        .package-features li {
+            font-size: 0.82rem;
+            color: var(--sand);
+            line-height: 1.5;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .package-features li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--rust);
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 6px;
+        }
+
+        .package-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            border: 1.5px solid rgba(255,255,255,0.15);
+            border-radius: 100px;
+            background: transparent;
+            color: var(--warm-white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.35s ease;
+            cursor: pointer;
+        }
+
+        .package-btn:hover {
+            background: var(--warm-white);
+            color: var(--charcoal);
+            border-color: var(--warm-white);
+        }
+
+        .package-card.highlight .package-btn {
+            background: var(--rust);
+            border-color: var(--rust);
+        }
+
+        .package-card.highlight .package-btn:hover {
+            background: var(--rust-light);
+            border-color: var(--rust-light);
+        }
+
+        /* ===== CONTACT ===== */
+        .contact {
+            background: var(--rust);
+            padding: 8rem 3rem;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-family: 'recoleta', serif;
+            font-weight: 900;
+            font-size: clamp(2.5rem, 7vw, 5.5rem);
+            color: var(--warm-white);
+            letter-spacing: -0.03em;
+            line-height: 0.95;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-sub {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 3rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .contact-row {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: 1.5px solid rgba(255,255,255,0.3);
+            border-radius: 100px;
+            color: var(--warm-white);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .contact-pill:hover {
+            background: var(--warm-white);
+            color: var(--rust);
+            border-color: var(--warm-white);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--charcoal);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .footer p {
+            font-size: 0.65rem;
+            color: var(--earth);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .slide-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Stagger children */
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .stagger-children.visible > *:nth-child(1) { transition-delay: 0s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(2) { transition-delay: 0.08s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(3) { transition-delay: 0.16s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(4) { transition-delay: 0.24s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(5) { transition-delay: 0.32s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(6) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 968px) {
+            .packages-grid { grid-template-columns: 1fr; max-width: 450px; }
+            .services-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1.25rem 1.5rem; }
+            .nav-links { display: none; }
+            .hero, .statement, .portfolio, .services, .packages, .contact {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            .portfolio-item.featured .portfolio-video-wrap {
+                aspect-ratio: 16 / 9;
+            }
+            .portfolio-item.featured .portfolio-overlay h3 {
+                font-size: 1.4rem;
+            }
+            .services-grid { grid-template-columns: 1fr; max-width: 450px; margin: 0 auto; }
+            .hero-sub {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            .hero-sep { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .contact-pill {
+                flex: 1 1 calc(50% - 0.75rem);
+                text-align: center;
+                justify-content: center;
+            }
+        }
+
+        /* ===== CURSOR GLOW (subtle) ===== */
+        .glow-cursor {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(circle, rgba(183, 73, 30, 0.06) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s;
+            opacity: 0;
+        }
+
+        body:hover .glow-cursor { opacity: 1; }
+
+        /* ===== VIDEO LIGHTBOX ===== */
+        .video-lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .video-lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(20px);
+            cursor: pointer;
+        }
+
+        .lightbox-content {
+            position: relative;
+            width: 90vw;
+            max-width: 1400px;
+            aspect-ratio: 16 / 9;
+            border-radius: 12px;
+            overflow: hidden;
+            transform: scale(0.92);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        .video-lightbox.active .lightbox-content {
+            transform: scale(1);
+        }
+
+        .lightbox-content video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .lightbox-controls {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            display: flex;
+            gap: 0.75rem;
+            z-index: 10;
+        }
+
+        .lightbox-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255,255,255,0.25);
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            color: var(--warm-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-btn:hover {
+            background: var(--rust);
+            border-color: var(--rust);
+        }
+
+        .lightbox-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 3rem 2rem 2rem;
+            background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+            z-index: 5;
+        }
+
+        .lightbox-tag {
+            font-size: 0.6rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--rust-light);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .lightbox-info h3 {
+            font-family: 'recoleta', serif;
+            font-weight: 900;
+            font-size: 1.75rem;
+            color: var(--warm-white);
+            margin-bottom: 0.4rem;
+            letter-spacing: -0.02em;
+        }
+
+        .lightbox-info p {
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: var(--sand);
+            max-width: 600px;
+        }
+
+        /* Hide body scroll when lightbox is open */
+        body.lightbox-open {
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .lightbox-content {
+                width: 95vw;
+                border-radius: 8px;
+            }
+            .lightbox-info h3 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* ===== HOW WE WORK BUTTON ===== */
+        .how-we-work-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.85rem 2rem;
+            border: 1.5px solid rgba(255,255,255,0.15);
+            border-radius: 100px;
+            background: transparent;
+            color: var(--warm-white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.35s ease;
+        }
+
+        .how-we-work-btn:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        /* ===== PROCESS MODAL ===== */
+        .process-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+
+        .process-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .process-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(16px);
+            cursor: pointer;
+        }
+
+        .process-content {
+            position: relative;
+            background: var(--charcoal);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 3.5rem 3rem;
+            max-width: 580px;
+            width: 90vw;
+            transform: translateY(20px) scale(0.97);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+        }
+
+        .process-modal.active .process-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .process-close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: transparent;
+            color: var(--warm-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .process-close:hover {
+            background: var(--rust);
+            border-color: var(--rust);
+        }
+
+        .process-close svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+        }
+
+        .process-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--rust-light);
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+        }
+
+        .process-content h3 {
+            font-family: 'recoleta', serif;
+            font-weight: 900;
+            font-size: 1.75rem;
+            color: var(--warm-white);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+        }
+
+        .process-steps {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .process-steps li {
+            font-size: 0.88rem;
+            line-height: 1.65;
+            color: var(--sand);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .process-steps li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            background: var(--rust);
+            border-radius: 50%;
+        }
+
+        .process-note {
+            margin-top: 1.75rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            color: var(--earth);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow-cursor" id="glowCursor"></div>
+
+    <nav id="nav">
+        <a href="#" class="nav-logo">copperhead.</a>
+        <ul class="nav-links">
+            <li><a href="#work">Work</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#packages">Packages</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="/login" class="nav-portal">
+            <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            Client Portal
+        </a>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h1 class="fade-in">copperhead.</h1>
+            <p class="hero-tagline fade-in">we craft video and social content that cuts through the noise and drives real engagement.</p>
+            <p class="hero-sub fade-in">
+                <span class="hero-role">video production</span><span class="hero-sep">/</span><span class="hero-role">social media</span><span class="hero-sep">/</span><span class="hero-role">creative strategy</span>
+            </p>
+            <p class="hero-badge fade-in">woman-owned &amp; operated &mdash; austin, tx</p>
+            <a href="#work" class="hero-cta fade-in">
+                See Our Work
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- STATEMENT -->
+    <section class="statement">
+        <p class="fade-in">we build brand image and community around your brand &mdash; through original content, on-site media days, and a strategy that actually moves the needle.</p>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section class="portfolio" id="work">
+        <p class="section-label">Selected Work</p>
+        <div class="portfolio-grid stagger-children">
+
+            <!-- Featured Project -->
+            <div class="portfolio-item featured fade-in" data-tag="Brand Campaign" data-title="Project Serpentine" data-desc="Full-scale video campaign for a national product launch — end-to-end creative direction, production, and delivery.">
+                <div class="portfolio-video-wrap">
+                    <video autoplay muted loop playsinline>
+                        <source src="/home-assets/Love_2.5.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-video-placeholder"></div>
+                    <div class="portfolio-play-btn" title="Expand & unmute">
+                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+                    </div>
+                </div>
+                <div class="portfolio-overlay">
+                    <p class="portfolio-tag">Brand Campaign</p>
+                    <h3>Project Serpentine</h3>
+                    <p>Full-scale video campaign for a national product launch &mdash; end-to-end creative direction, production, and delivery.</p>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="portfolio-item fade-in" data-tag="Social Content" data-title="Venue Series" data-desc="Ongoing social campaign turning live event footage into high-performing short-form content.">
+                <div class="portfolio-video-wrap">
+                    <video autoplay muted loop playsinline>
+                        <source src="/home-assets/STEM%20Robotics%20Promo.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-video-placeholder"></div>
+                    <div class="portfolio-play-btn" title="Expand & unmute">
+                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+                    </div>
+                </div>
+                <div class="portfolio-overlay">
+                    <p class="portfolio-tag">Social Content</p>
+                    <h3>Venue Series</h3>
+                    <p>Ongoing social campaign turning live event footage into high-performing short-form content.</p>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="portfolio-item fade-in" data-tag="Commercial" data-title="Copper &amp; Co" data-desc="Cinematic brand film for a craft spirits company — shot on location over two days.">
+                <div class="portfolio-video-wrap">
+                    <video autoplay muted loop playsinline>
+                        <source src="/home-assets/James%20Aidan%20King%20DP%20Reel%202025.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-video-placeholder"></div>
+                    <div class="portfolio-play-btn" title="Expand & unmute">
+                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+                    </div>
+                </div>
+                <div class="portfolio-overlay">
+                    <p class="portfolio-tag">Commercial</p>
+                    <h3>Copper &amp; Co</h3>
+                    <p>Cinematic brand film for a craft spirits company &mdash; shot on location over two days.</p>
+                </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="portfolio-item fade-in" data-tag="Music &amp; Events" data-title="After Hours" data-desc="Recap and promo content for a live music series, growing event attendance 40%.">
+                <div class="portfolio-video-wrap">
+                    <video autoplay muted loop playsinline>
+                        <!-- <source src="videos/after-hours.mp4" type="video/mp4"> -->
+                    </video>
+                    <div class="portfolio-video-placeholder"></div>
+                    <div class="portfolio-play-btn" title="Expand & unmute">
+                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+                    </div>
+                </div>
+                <div class="portfolio-overlay">
+                    <p class="portfolio-tag">Music &amp; Events</p>
+                    <h3>After Hours</h3>
+                    <p>Recap and promo content for a live music series, growing event attendance 40%.</p>
+                </div>
+            </div>
+
+            <!-- Project 5 -->
+            <div class="portfolio-item fade-in" data-tag="Content Strategy" data-title="Rise Collective" data-desc="Social media overhaul and content pipeline for a fitness brand — 3x engagement in 90 days.">
+                <div class="portfolio-video-wrap">
+                    <video autoplay muted loop playsinline>
+                        <!-- <source src="videos/rise-collective.mp4" type="video/mp4"> -->
+                    </video>
+                    <div class="portfolio-video-placeholder"></div>
+                    <div class="portfolio-play-btn" title="Expand & unmute">
+                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+                    </div>
+                </div>
+                <div class="portfolio-overlay">
+                    <p class="portfolio-tag">Content Strategy</p>
+                    <h3>Rise Collective</h3>
+                    <p>Social media overhaul and content pipeline for a fitness brand &mdash; 3x engagement in 90 days.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+        <p class="section-label">What We Do</p>
+        <div class="services-grid stagger-children">
+            <div class="service-card fade-in">
+                <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="23 7 16 12 23 17 23 7"/>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                </svg>
+                <h3>video production</h3>
+                <p>Commercial spots, brand films, event coverage, and promotional video &mdash; shot, directed, and edited in-house.</p>
+            </div>
+            <div class="service-card fade-in">
+                <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                    <line x1="8" y1="21" x2="16" y2="21"/>
+                    <line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+                <h3>social media</h3>
+                <p>Strategy, content creation, and channel management that actually grows your audience and drives engagement.</p>
+            </div>
+            <div class="service-card fade-in">
+                <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="2" y1="12" x2="22" y2="12"/>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+                <h3>creative strategy</h3>
+                <p>Brand positioning, campaign planning, and creative direction to give your content a clear purpose and identity.</p>
+            </div>
+            <div class="service-card fade-in">
+                <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+                <h3>post-production</h3>
+                <p>Color grading, motion graphics, sound design, and final polish to make every frame count.</p>
+            </div>
+            <div class="service-card fade-in">
+                <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20h9"/>
+                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                </svg>
+                <h3>content creation</h3>
+                <p>Short-form video, reels, stories, and assets built to perform on every platform.</p>
+            </div>
+            <div class="service-card fade-in">
+                <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                <h3>brand consulting</h3>
+                <p>Voice, visual identity, and messaging strategy to help you stand out in a crowded market.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PACKAGES -->
+    <section class="packages" id="packages">
+        <p class="section-label">Packages</p>
+        <div class="packages-grid stagger-children">
+
+            <div class="package-card fade-in">
+                <h3 class="package-name">starter</h3>
+                <p class="package-desc">Everything you need to get consistent, professional content rolling on your channels.</p>
+                <p class="package-price">$1,250 <span>/ mo</span></p>
+                <p class="package-period">Billed monthly</p>
+                <div class="package-divider"></div>
+                <ul class="package-features">
+                    <li>Curated monthly content calendar</li>
+                    <li>4 original, custom posts per month</li>
+                    <li>1&ndash;2 on-site media days</li>
+                    <li>Platform moderation (DMs &amp; updates)</li>
+                    <li>Monthly analytics report</li>
+                </ul>
+                <a href="#contact" class="package-btn">Get Started</a>
+            </div>
+
+            <div class="package-card highlight fade-in">
+                <div class="package-badge">Most Popular</div>
+                <h3 class="package-name">growth</h3>
+                <p class="package-desc">Scale up with more content, multi-platform management, and deeper strategy.</p>
+                <p class="package-price">$2,500 <span>/ mo</span></p>
+                <p class="package-period">Billed monthly</p>
+                <div class="package-divider"></div>
+                <ul class="package-features">
+                    <li>Everything in Starter</li>
+                    <li>8 original posts per month</li>
+                    <li>Up to 3 platforms managed</li>
+                    <li>Content strategy &amp; creative direction</li>
+                    <li>Bi-weekly strategy sessions</li>
+                    <li>Copperhead analytics dashboard</li>
+                </ul>
+                <a href="#contact" class="package-btn">Get Started</a>
+            </div>
+
+            <div class="package-card fade-in">
+                <h3 class="package-name">enterprise</h3>
+                <p class="package-desc">Full-service creative partnership &mdash; unlimited content, dedicated team, end to end.</p>
+                <p class="package-price">Custom</p>
+                <p class="package-period">Tailored to your needs</p>
+                <div class="package-divider"></div>
+                <ul class="package-features">
+                    <li>Everything in Growth</li>
+                    <li>Unlimited content production</li>
+                    <li>All platforms managed</li>
+                    <li>Dedicated creative director</li>
+                    <li>Full video production &amp; post</li>
+                    <li>Weekly strategy &amp; reporting</li>
+                </ul>
+                <a href="#contact" class="package-btn">Let's Talk</a>
+            </div>
+
+        </div>
+        <div class="packages-how" style="text-align:center; margin-top: 3rem;">
+            <button class="how-we-work-btn fade-in" id="howWeWorkBtn">How We Work</button>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+        <h2 class="fade-in">let's build<br>something.</h2>
+        <p class="contact-sub fade-in">Ready to elevate your brand's content? Reach out and let's talk about what Copperhead can do for you.</p>
+        <div class="contact-row fade-in">
+            <a href="mailto:hello@copperhead-media.com" class="contact-pill">Email</a>
+            <a href="#" class="contact-pill">Instagram</a>
+            <a href="#" class="contact-pill">LinkedIn</a>
+            <a href="#" class="contact-pill">Book a Call</a>
+        </div>
+    </section>
+
+    <!-- HOW WE WORK MODAL -->
+    <div class="process-modal" id="processModal">
+        <div class="process-backdrop" id="processBackdrop"></div>
+        <div class="process-content">
+            <button class="process-close" id="processClose">
+                <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <p class="process-label">How We Work</p>
+            <h3>on-site media days.<br>delivered all month.</h3>
+            <ul class="process-steps">
+                <li>We schedule 1&ndash;2 media days per month to shoot that month&rsquo;s content on-site with you.</li>
+                <li>Before each shoot, you share the events, promos, and priorities you want to push &mdash; we build it into a content calendar.</li>
+                <li>We generate all the content during the media day(s) and deliver &amp; post throughout the month on schedule.</li>
+                <li>Track performance anytime through your Copperhead analytics dashboard.</li>
+            </ul>
+            <p class="process-note">When you sign with Copperhead, our team aligns with your branding and goals through preliminary meetings before the first shoot.</p>
+        </div>
+    </div>
+
+    <!-- VIDEO LIGHTBOX -->
+    <div class="video-lightbox" id="videoLightbox">
+        <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+        <div class="lightbox-content">
+            <div class="lightbox-controls">
+                <button class="lightbox-btn" id="lightboxMute" title="Toggle audio">
+                    <svg id="muteIcon" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    <svg id="unmutedIcon" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+                </button>
+                <button class="lightbox-btn" id="lightboxClose" title="Close">
+                    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <video id="lightboxVideo" loop playsinline></video>
+            <div class="lightbox-info">
+                <p class="lightbox-tag" id="lightboxTag"></p>
+                <h3 id="lightboxTitle"></h3>
+                <p id="lightboxDesc"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Copperhead Media &middot; Woman-Owned</p>
+    </footer>
+
+    <script>
+        /* ===== Intersection Observer for animations ===== */
+        var obs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.fade-in, .slide-up, .scale-in, .stagger-children').forEach(function(el) {
+            obs.observe(el);
+        });
+
+        /* ===== Nav scroll effect ===== */
+        var navEl = document.getElementById('nav');
+        window.addEventListener('scroll', function() {
+            navEl.classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        /* ===== Subtle cursor glow ===== */
+        var glow = document.getElementById('glowCursor');
+        document.addEventListener('mousemove', function(e) {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+
+        /* ===== Parallax on portfolio items ===== */
+        var portfolioItems = document.querySelectorAll('.portfolio-item');
+        window.addEventListener('scroll', function() {
+            var scrollY = window.scrollY;
+            portfolioItems.forEach(function(item, i) {
+                var rect = item.getBoundingClientRect();
+                var center = rect.top + rect.height / 2;
+                var windowCenter = window.innerHeight / 2;
+                var offset = (center - windowCenter) * 0.03;
+                item.style.transform = 'translateY(' + (-offset) + 'px)';
+            });
+        });
+
+        /* ===== Smooth reveal hero elements ===== */
+        window.addEventListener('load', function() {
+            var heroEls = document.querySelectorAll('.hero .fade-in');
+            heroEls.forEach(function(el, i) {
+                setTimeout(function() {
+                    el.classList.add('visible');
+                }, 200 + (i * 150));
+            });
+        });
+
+        /* ===== Video Autoplay — hide placeholder when video loads ===== */
+        document.querySelectorAll('.portfolio-video-wrap video').forEach(function(video) {
+            video.addEventListener('loadeddata', function() {
+                var placeholder = video.parentElement.querySelector('.portfolio-video-placeholder');
+                if (placeholder) placeholder.style.display = 'none';
+            });
+            // If video already has data (cached)
+            if (video.readyState >= 2) {
+                var placeholder = video.parentElement.querySelector('.portfolio-video-placeholder');
+                if (placeholder) placeholder.style.display = 'none';
+            }
+        });
+
+        /* ===== Video Lightbox ===== */
+        var lightbox = document.getElementById('videoLightbox');
+        var lightboxVideo = document.getElementById('lightboxVideo');
+        var lightboxTag = document.getElementById('lightboxTag');
+        var lightboxTitle = document.getElementById('lightboxTitle');
+        var lightboxDesc = document.getElementById('lightboxDesc');
+        var muteIcon = document.getElementById('muteIcon');
+        var unmutedIcon = document.getElementById('unmutedIcon');
+        var isMuted = false; // lightbox starts unmuted
+
+        function openLightbox(portfolioItem) {
+            var video = portfolioItem.querySelector('video');
+            var tag = portfolioItem.getAttribute('data-tag') || '';
+            var title = portfolioItem.getAttribute('data-title') || '';
+            var desc = portfolioItem.getAttribute('data-desc') || '';
+
+            // Set lightbox info
+            lightboxTag.textContent = tag;
+            lightboxTitle.textContent = title;
+            lightboxDesc.textContent = desc;
+
+            // Get the actual video URL from the inline player
+            var videoSrc = video.currentSrc || '';
+            if (!videoSrc) {
+                // Fallback: try to read from <source> child
+                var sourceEl = video.querySelector('source');
+                if (sourceEl) videoSrc = sourceEl.getAttribute('src') || '';
+            }
+
+            // Set source directly on the lightbox video element
+            lightboxVideo.removeAttribute('src');
+            lightboxVideo.innerHTML = '';
+            if (videoSrc) {
+                lightboxVideo.src = videoSrc;
+            }
+
+            lightboxVideo.muted = false;
+            isMuted = false;
+            muteIcon.style.display = '';
+            unmutedIcon.style.display = 'none';
+            lightboxVideo.currentTime = video.currentTime || 0;
+            lightboxVideo.load();
+            lightboxVideo.play().catch(function() {
+                // Autoplay with sound may be blocked — fallback to muted
+                lightboxVideo.muted = true;
+                isMuted = true;
+                muteIcon.style.display = 'none';
+                unmutedIcon.style.display = '';
+                lightboxVideo.play();
+            });
+
+            lightbox.classList.add('active');
+            document.body.classList.add('lightbox-open');
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.classList.remove('lightbox-open');
+            setTimeout(function() {
+                lightboxVideo.pause();
+                lightboxVideo.removeAttribute('src');
+                lightboxVideo.innerHTML = '';
+                lightboxVideo.load();
+            }, 400);
+        }
+
+        // Click play button or portfolio item to expand
+        document.querySelectorAll('.portfolio-item').forEach(function(item) {
+            // Play button opens lightbox
+            var playBtn = item.querySelector('.portfolio-play-btn');
+            if (playBtn) {
+                playBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    openLightbox(item);
+                });
+            }
+            // Clicking the whole card also opens
+            item.addEventListener('click', function() {
+                openLightbox(item);
+            });
+        });
+
+        // Close on backdrop click
+        document.getElementById('lightboxBackdrop').addEventListener('click', closeLightbox);
+        document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+
+        // Escape key to close
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        // Toggle mute
+        document.getElementById('lightboxMute').addEventListener('click', function() {
+            isMuted = !isMuted;
+            lightboxVideo.muted = isMuted;
+            muteIcon.style.display = isMuted ? 'none' : '';
+            unmutedIcon.style.display = isMuted ? '' : 'none';
+        });
+
+        /* ===== How We Work Modal ===== */
+        var processModal = document.getElementById('processModal');
+
+        document.getElementById('howWeWorkBtn').addEventListener('click', function() {
+            processModal.classList.add('active');
+            document.body.classList.add('lightbox-open');
+        });
+
+        function closeProcess() {
+            processModal.classList.remove('active');
+            document.body.classList.remove('lightbox-open');
+        }
+
+        document.getElementById('processBackdrop').addEventListener('click', closeProcess);
+        document.getElementById('processClose').addEventListener('click', closeProcess);
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeProcess();
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>copperhead. — portal</title>
+    <link rel="stylesheet" href="https://use.typekit.net/sag3htb.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rust: #B7491E;
+            --rust-light: #D4633A;
+            --cream: #F2EDE4;
+            --warm-white: #FAF8F4;
+            --charcoal: #1E1A17;
+            --sand: #C4B5A0;
+            --earth: #6B5B4E;
+            --terra: #A67B5B;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--charcoal);
+            color: var(--warm-white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .login-logo {
+            font-family: 'recoleta', serif;
+            font-weight: 900;
+            font-size: 2.5rem;
+            color: var(--warm-white);
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-sub {
+            font-size: 0.7rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--sand);
+            margin-bottom: 3rem;
+            font-weight: 500;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .input-group {
+            position: relative;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--earth);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.9rem 1.25rem;
+            border: 1.5px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.03);
+            color: var(--warm-white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input-group input::placeholder {
+            color: var(--earth);
+            font-size: 0.85rem;
+        }
+
+        .input-group input:focus {
+            border-color: var(--rust);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 100px;
+            background: var(--rust);
+            color: var(--warm-white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.35s ease;
+            margin-top: 0.5rem;
+        }
+
+        .login-btn:hover {
+            background: var(--rust-light);
+            transform: translateY(-1px);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-error {
+            color: var(--rust-light);
+            font-size: 0.8rem;
+            margin-top: 0.75rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .login-error.show {
+            opacity: 1;
+        }
+
+        .login-footer {
+            margin-top: 3rem;
+            font-size: 0.6rem;
+            color: var(--earth);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        /* Subtle background glow */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(183, 73, 30, 0.06) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        /* Fade in animation */
+        .login-container {
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeUp 0.6s ease forwards;
+            animation-delay: 0.1s;
+        }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1 class="login-logo">copperhead.</h1>
+        <p class="login-sub">Client Portal</p>
+
+        <form class="login-form" id="loginForm">
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" id="username" placeholder="Enter username" autocomplete="username" required>
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Enter password" autocomplete="current-password" required>
+            </div>
+            <button type="submit" class="login-btn">Sign In</button>
+            <p class="login-error" id="loginError">Invalid credentials. Please try again.</p>
+        </form>
+
+        <p class="login-footer">&copy; 2026 Copperhead Media</p>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const errorEl = document.getElementById('loginError');
+            errorEl.classList.remove('show');
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    window.location.href = data.role === 'admin' ? '/admin' : '/';
+                } else {
+                    errorEl.classList.add('show');
+                }
+            } catch (err) {
+                errorEl.classList.add('show');
+            }
+        });
+    </script>
+</body>
+</html>

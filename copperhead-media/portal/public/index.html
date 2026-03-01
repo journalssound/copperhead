@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>copperhead. — client portal</title>
+    <link rel="stylesheet" href="https://use.typekit.net/sag3htb.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/portal.css">
+</head>
+<body>
+
+    <!-- ─── TOP BAR ─── -->
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a href="/" class="topbar-logo">copperhead.</a>
+            <nav class="topbar-nav" id="topNav">
+                <a href="#overview" class="active">Overview</a>
+                <a href="#calendar">Calendar</a>
+                <a href="#posts">Posts</a>
+                <a href="#analytics">Analytics</a>
+                <a href="#assets">Assets</a>
+            </nav>
+            <button class="topbar-signout" id="logoutBtn">
+                <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Sign Out
+            </button>
+        </div>
+    </header>
+
+    <!-- ─── MAIN SCROLLABLE PAGE ─── -->
+    <main class="page">
+
+        <!-- SECTION: Overview / Welcome -->
+        <section class="section" id="overview">
+            <div class="section-top">
+                <div class="welcome-text">
+                    <h1 class="hero-title reveal">Welcome back.</h1>
+                    <p class="hero-sub reveal d1">Here's your brand at a glance — everything you need, all in one place.</p>
+                </div>
+            </div>
+
+            <div class="stats-row reveal d2" id="statCards">
+                <div class="stat-card glass skeleton">
+                    <div class="stat-value">—</div>
+                    <div class="stat-label">Loading</div>
+                </div>
+                <div class="stat-card glass skeleton">
+                    <div class="stat-value">—</div>
+                    <div class="stat-label">Loading</div>
+                </div>
+                <div class="stat-card glass skeleton">
+                    <div class="stat-value">—</div>
+                    <div class="stat-label">Loading</div>
+                </div>
+                <div class="stat-card glass skeleton">
+                    <div class="stat-value">—</div>
+                    <div class="stat-label">Loading</div>
+                </div>
+            </div>
+
+            <div class="overview-grid reveal d3">
+                <div class="card glass">
+                    <div class="card-head">
+                        <h3>Pending Approval</h3>
+                        <span class="count-badge" id="pendingCount"></span>
+                    </div>
+                    <div class="card-body" id="pendingList">
+                        <div class="empty-mini">Loading…</div>
+                    </div>
+                </div>
+                <div class="card glass">
+                    <div class="card-head">
+                        <h3>Coming Up Next</h3>
+                    </div>
+                    <div class="card-body" id="upcomingList">
+                        <div class="empty-mini">Loading…</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- SECTION: Content Calendar -->
+        <section class="section" id="calendar">
+            <div class="section-head">
+                <h2 class="section-title reveal">Content Calendar</h2>
+                <div class="cal-controls reveal d1">
+                    <button class="btn-icon" id="calPrev">
+                        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <span class="cal-month-label" id="calMonthLabel"></span>
+                    <button class="btn-icon" id="calNext">
+                        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="cal-legend reveal d1">
+                <span><i class="dot draft"></i>Draft</span>
+                <span><i class="dot pending"></i>Pending</span>
+                <span><i class="dot approved"></i>Approved</span>
+                <span><i class="dot scheduled"></i>Scheduled</span>
+                <span><i class="dot published"></i>Published</span>
+            </div>
+            <div class="cal-grid glass reveal d2" id="calGrid"></div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- SECTION: All Posts -->
+        <section class="section" id="posts">
+            <div class="section-head">
+                <h2 class="section-title reveal">All Posts</h2>
+                <div class="filter-row reveal d1">
+                    <select id="filterStatus" class="filter-select">
+                        <option value="">All Statuses</option>
+                        <option value="draft">Draft</option>
+                        <option value="pending">Pending Review</option>
+                        <option value="approved">Approved</option>
+                        <option value="revision">Needs Revision</option>
+                        <option value="scheduled">Scheduled</option>
+                        <option value="published">Published</option>
+                    </select>
+                    <select id="filterPlatform" class="filter-select">
+                        <option value="">All Platforms</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="tiktok">TikTok</option>
+                        <option value="facebook">Facebook</option>
+                    </select>
+                </div>
+            </div>
+            <div class="posts-table-wrap reveal d2" id="postsTableWrap">
+                <table class="posts-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Title</th>
+                            <th>Platform</th>
+                            <th>Status</th>
+                            <th>Scheduled</th>
+                        </tr>
+                    </thead>
+                    <tbody id="postsBody">
+                        <tr><td colspan="5" class="loading-cell">Loading…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- SECTION: Analytics -->
+        <section class="section" id="analytics">
+            <div class="section-head">
+                <h2 class="section-title reveal">Analytics</h2>
+                <div class="filter-row reveal d1">
+                    <select id="analyticsPlatform" class="filter-select">
+                        <option value="">All Platforms</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="tiktok">TikTok</option>
+                        <option value="facebook">Facebook</option>
+                    </select>
+                    <select id="analyticsPeriod" class="filter-select">
+                        <option value="30">Last 30 days</option>
+                        <option value="14">Last 14 days</option>
+                        <option value="7">Last 7 days</option>
+                    </select>
+                </div>
+            </div>
+            <div class="stats-row reveal d1" id="analyticsStats"></div>
+            <div class="analytics-grid reveal d2">
+                <div class="card glass chart-card">
+                    <h3>Performance Over Time</h3>
+                    <div class="chart-wrap">
+                        <canvas id="mainChart"></canvas>
+                    </div>
+                </div>
+                <div class="analytics-side">
+                    <div class="card glass compact doughnut-card">
+                        <h3>Platform Breakdown</h3>
+                        <div class="doughnut-wrap">
+                            <canvas id="platformDoughnut"></canvas>
+                        </div>
+                        <div id="platformBreakdown" class="breakdown"></div>
+                    </div>
+                    <div class="card glass compact">
+                        <h3>Top Metrics</h3>
+                        <div id="topMetrics" class="breakdown"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- SECTION: Assets -->
+        <section class="section" id="assets">
+            <div class="section-head">
+                <h2 class="section-title reveal">Asset Library</h2>
+                <button class="btn-primary reveal d1" id="uploadBtn">
+                    <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Upload
+                </button>
+            </div>
+            <div class="dropzone reveal d1" id="dropzone">
+                <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                <p>Drop files here or click Upload</p>
+            </div>
+            <div class="asset-grid reveal d2" id="assetGrid">
+                <div class="empty-mini">No assets uploaded yet</div>
+            </div>
+        </section>
+
+        <footer class="portal-footer">
+            <p>&copy; 2026 Copperhead Media. All rights reserved.</p>
+        </footer>
+
+    </main>
+
+    <!-- ─── POST DETAIL MODAL ─── -->
+    <div class="modal-overlay" id="postModal">
+        <div class="modal-backdrop" id="postModalBackdrop"></div>
+        <div class="modal-panel">
+            <button class="modal-close" id="postModalClose">
+                <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <div id="modalHeader"></div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <input type="file" id="fileInput" multiple accept="image/*,video/*,.pdf,.svg" style="display:none">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
