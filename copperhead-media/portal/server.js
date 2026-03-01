@@ -8,6 +8,9 @@ const db = require('./db');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust Railway's reverse proxy
+app.set('trust proxy', 1);
+
 // ──────────────────────────────────────────
 // Middleware
 // ──────────────────────────────────────────
@@ -17,7 +20,11 @@ app.use(session({
   secret: 'copperhead-portal-secret-2026',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 } // 7 days
+  cookie: {
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax'
+  }
 }));
 
 // Static files
