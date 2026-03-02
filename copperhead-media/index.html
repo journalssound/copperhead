@@ -177,7 +177,7 @@
             position: relative;
             transform-style: preserve-3d;
             transform: rotateX(-8deg) rotateY(var(--hero-tilt, 0deg));
-            animation: heroCarouselSpin 32s linear infinite;
+            animation: heroCarouselSpin 72s linear infinite;
             transition: transform 0.45s ease-out;
         }
 
@@ -192,9 +192,9 @@
             border: 1px solid rgba(255,255,255,0.16);
             background: rgba(255,255,255,0.03);
             box-shadow: 0 26px 74px rgba(0,0,0,0.5);
-            opacity: 0.58;
+            opacity: 0.62;
             transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) translateZ(380px);
-            animation: heroPanelFocus 8.5s ease-in-out infinite;
+            animation: heroPanelFocus 10s ease-in-out infinite;
             animation-delay: calc(var(--i) * -1.2s);
         }
 
@@ -219,8 +219,8 @@
         }
 
         @keyframes heroPanelFocus {
-            0%, 100% { filter: blur(1.6px); opacity: 0.46; }
-            50% { filter: blur(0.15px); opacity: 0.72; }
+            0%, 100% { filter: blur(0.95px); opacity: 0.5; }
+            50% { filter: blur(0px); opacity: 0.82; }
         }
 
         .hero-inner {
@@ -927,14 +927,14 @@
             .hero-carousel {
                 width: 100%;
                 height: 48vh;
-                animation-duration: 40s;
+                animation-duration: 56s;
             }
             .hero-panel {
                 width: 210px;
                 height: 130px;
                 transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) translateZ(220px);
-                opacity: 0.4;
-                filter: blur(0.8px);
+                opacity: 0.52;
+                filter: blur(0.45px);
             }
             .hero-panel:nth-child(n+4) {
                 display: none;
@@ -2205,6 +2205,26 @@
         (function() {
             var hero = document.querySelector('.hero');
             var carousel = document.getElementById('heroCarousel');
+            var heroVideos = document.querySelectorAll('.hero-panel video');
+
+            function startHeroVideos() {
+                heroVideos.forEach(function(video) {
+                    video.muted = true;
+                    video.playsInline = true;
+                    var p = video.play();
+                    if (p && typeof p.catch === 'function') {
+                        p.catch(function() {});
+                    }
+                });
+            }
+
+            startHeroVideos();
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'visible') {
+                    startHeroVideos();
+                }
+            });
+
             if (!hero || !carousel || window.matchMedia('(max-width: 768px)').matches) return;
 
             hero.addEventListener('mousemove', function(e) {
