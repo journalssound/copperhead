@@ -12,14 +12,12 @@
 </head>
 <body>
 
-    <!-- ─── TOP BAR ─── -->
+    <!-- TOP BAR -->
     <header class="topbar">
         <div class="topbar-inner">
             <a href="/" class="topbar-logo">copperhead.</a>
             <nav class="topbar-nav" id="topNav">
                 <a href="#overview" class="active">Overview</a>
-                <a href="#calendar">Calendar</a>
-                <a href="#posts">Posts</a>
                 <a href="#analytics">Analytics</a>
                 <a href="#assets">Assets</a>
             </nav>
@@ -30,123 +28,32 @@
         </div>
     </header>
 
-    <!-- ─── MAIN SCROLLABLE PAGE ─── -->
+    <!-- MAIN SCROLLABLE PAGE -->
     <main class="page">
 
-        <!-- SECTION: Overview / Welcome -->
+        <!-- SECTION: Overview -->
         <section class="section" id="overview">
             <div class="section-top">
                 <div class="welcome-text">
                     <h1 class="hero-title reveal">Welcome back.</h1>
-                    <p class="hero-sub reveal d1">Here's your brand at a glance — everything you need, all in one place.</p>
+                    <p class="hero-sub reveal d1">Here's your campaign performance at a glance.</p>
                 </div>
             </div>
 
-            <div class="stats-row reveal d2" id="statCards">
-                <div class="stat-card glass skeleton">
-                    <div class="stat-value">—</div>
-                    <div class="stat-label">Loading</div>
-                </div>
-                <div class="stat-card glass skeleton">
-                    <div class="stat-value">—</div>
-                    <div class="stat-label">Loading</div>
-                </div>
-                <div class="stat-card glass skeleton">
-                    <div class="stat-value">—</div>
-                    <div class="stat-label">Loading</div>
-                </div>
-                <div class="stat-card glass skeleton">
-                    <div class="stat-value">—</div>
-                    <div class="stat-label">Loading</div>
-                </div>
+            <div class="kpi-row reveal d2" id="kpiCards">
+                <div class="kpi-card glass skeleton"><div class="kpi-value">--</div><div class="kpi-label">Loading</div></div>
+                <div class="kpi-card glass skeleton"><div class="kpi-value">--</div><div class="kpi-label">Loading</div></div>
+                <div class="kpi-card glass skeleton"><div class="kpi-value">--</div><div class="kpi-label">Loading</div></div>
+                <div class="kpi-card glass skeleton"><div class="kpi-value">--</div><div class="kpi-label">Loading</div></div>
+                <div class="kpi-card glass skeleton"><div class="kpi-value">--</div><div class="kpi-label">Loading</div></div>
+                <div class="kpi-card glass skeleton"><div class="kpi-value">--</div><div class="kpi-label">Loading</div></div>
             </div>
 
-            <div class="overview-grid reveal d3">
-                <div class="card glass">
-                    <div class="card-head">
-                        <h3>Pending Approval</h3>
-                        <span class="count-badge" id="pendingCount"></span>
-                    </div>
-                    <div class="card-body" id="pendingList">
-                        <div class="empty-mini">Loading…</div>
-                    </div>
+            <div class="overview-chart-row reveal d3">
+                <div class="card glass chart-card-lg">
+                    <h3>30-Day Trend</h3>
+                    <div class="chart-wrap"><canvas id="overviewChart"></canvas></div>
                 </div>
-                <div class="card glass">
-                    <div class="card-head">
-                        <h3>Coming Up Next</h3>
-                    </div>
-                    <div class="card-body" id="upcomingList">
-                        <div class="empty-mini">Loading…</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <!-- SECTION: Content Calendar -->
-        <section class="section" id="calendar">
-            <div class="section-head">
-                <h2 class="section-title reveal">Content Calendar</h2>
-                <div class="cal-controls reveal d1">
-                    <button class="btn-icon" id="calPrev">
-                        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-                    </button>
-                    <span class="cal-month-label" id="calMonthLabel"></span>
-                    <button class="btn-icon" id="calNext">
-                        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-                    </button>
-                </div>
-            </div>
-            <div class="cal-legend reveal d1">
-                <span><i class="dot draft"></i>Draft</span>
-                <span><i class="dot pending"></i>Pending</span>
-                <span><i class="dot approved"></i>Approved</span>
-                <span><i class="dot scheduled"></i>Scheduled</span>
-                <span><i class="dot published"></i>Published</span>
-            </div>
-            <div class="cal-grid glass reveal d2" id="calGrid"></div>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <!-- SECTION: All Posts -->
-        <section class="section" id="posts">
-            <div class="section-head">
-                <h2 class="section-title reveal">All Posts</h2>
-                <div class="filter-row reveal d1">
-                    <select id="filterStatus" class="filter-select">
-                        <option value="">All Statuses</option>
-                        <option value="draft">Draft</option>
-                        <option value="pending">Pending Review</option>
-                        <option value="approved">Approved</option>
-                        <option value="revision">Needs Revision</option>
-                        <option value="scheduled">Scheduled</option>
-                        <option value="published">Published</option>
-                    </select>
-                    <select id="filterPlatform" class="filter-select">
-                        <option value="">All Platforms</option>
-                        <option value="instagram">Instagram</option>
-                        <option value="tiktok">TikTok</option>
-                        <option value="facebook">Facebook</option>
-                    </select>
-                </div>
-            </div>
-            <div class="posts-table-wrap reveal d2" id="postsTableWrap">
-                <table class="posts-table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Title</th>
-                            <th>Platform</th>
-                            <th>Status</th>
-                            <th>Scheduled</th>
-                        </tr>
-                    </thead>
-                    <tbody id="postsBody">
-                        <tr><td colspan="5" class="loading-cell">Loading…</td></tr>
-                    </tbody>
-                </table>
             </div>
         </section>
 
@@ -161,7 +68,6 @@
                         <option value="">All Platforms</option>
                         <option value="instagram">Instagram</option>
                         <option value="tiktok">TikTok</option>
-                        <option value="facebook">Facebook</option>
                     </select>
                     <select id="analyticsPeriod" class="filter-select">
                         <option value="30">Last 30 days</option>
@@ -174,16 +80,12 @@
             <div class="analytics-grid reveal d2">
                 <div class="card glass chart-card">
                     <h3>Performance Over Time</h3>
-                    <div class="chart-wrap">
-                        <canvas id="mainChart"></canvas>
-                    </div>
+                    <div class="chart-wrap"><canvas id="mainChart"></canvas></div>
                 </div>
                 <div class="analytics-side">
                     <div class="card glass compact doughnut-card">
                         <h3>Platform Breakdown</h3>
-                        <div class="doughnut-wrap">
-                            <canvas id="platformDoughnut"></canvas>
-                        </div>
+                        <div class="doughnut-wrap"><canvas id="platformDoughnut"></canvas></div>
                         <div id="platformBreakdown" class="breakdown"></div>
                     </div>
                     <div class="card glass compact">
@@ -191,6 +93,18 @@
                         <div id="topMetrics" class="breakdown"></div>
                     </div>
                 </div>
+            </div>
+
+            <div class="content-perf-grid reveal d3">
+                <h3>Content Performance</h3>
+                <div class="perf-header">
+                    <div class="perf-col perf-col-date">Date</div>
+                    <div class="perf-col">Views</div>
+                    <div class="perf-col">Reach</div>
+                    <div class="perf-col">Engagements</div>
+                    <div class="perf-col">Eng. Rate</div>
+                </div>
+                <div id="perfBody"></div>
             </div>
         </section>
 
@@ -219,18 +133,6 @@
         </footer>
 
     </main>
-
-    <!-- ─── POST DETAIL MODAL ─── -->
-    <div class="modal-overlay" id="postModal">
-        <div class="modal-backdrop" id="postModalBackdrop"></div>
-        <div class="modal-panel">
-            <button class="modal-close" id="postModalClose">
-                <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
-            <div id="modalHeader"></div>
-            <div id="modalBody"></div>
-        </div>
-    </div>
 
     <input type="file" id="fileInput" multiple accept="image/*,video/*,.pdf,.svg" style="display:none">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>

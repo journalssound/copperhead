@@ -80,12 +80,11 @@ addComment(8, 'Client', 'Approved! This looks amazing.', false);
 addComment(16, 'Copperhead', 'Matcha reel is filmed and edited. Preview link attached. 🍵', true);
 
 // Analytics (last 30 days)
-const platforms = ['instagram', 'tiktok', 'facebook'];
+const platforms = ['instagram', 'tiktok'];
 const metrics = ['impressions', 'reach', 'engagement', 'followers'];
 const baseValues = {
   instagram: { impressions: 12000, reach: 8500, engagement: 450, followers: 2840 },
-  tiktok:    { impressions: 18000, reach: 14000, engagement: 780, followers: 1920 },
-  facebook:  { impressions: 6500,  reach: 4200,  engagement: 210, followers: 3100 }
+  tiktok:    { impressions: 18000, reach: 14000, engagement: 780, followers: 1920 }
 };
 
 for (let daysAgo = 29; daysAgo >= 0; daysAgo--) {
