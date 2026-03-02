@@ -1053,10 +1053,8 @@
 
         .process-content {
             position: relative;
-            max-width: 920px;
+            max-width: 960px;
             width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
             z-index: 1;
         }
 
@@ -1096,23 +1094,23 @@
 
         .process-header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.25rem;
         }
 
         .process-label {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--rust-light);
             font-weight: 600;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.4rem;
             display: block;
         }
 
         .process-header h3 {
             font-family: 'recoleta', serif;
             font-weight: 900;
-            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
             color: var(--warm-white);
             letter-spacing: -0.03em;
             line-height: 1.1;
@@ -1121,14 +1119,14 @@
         .process-tiles {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .process-tile {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 16px;
-            padding: 2rem 1.5rem 1.75rem;
+            border-radius: 14px;
+            padding: 1.1rem 1.15rem 1rem;
             position: relative;
             overflow: hidden;
             transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
@@ -1158,19 +1156,21 @@
         .tile-num {
             font-family: 'recoleta', serif;
             font-weight: 900;
-            font-size: 2.5rem;
-            color: rgba(183, 73, 30, 0.2);
+            font-size: 1.5rem;
+            color: rgba(183, 73, 30, 0.25);
             line-height: 1;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.4rem;
             letter-spacing: -0.04em;
             position: relative;
+            float: right;
+            margin-top: -0.15rem;
         }
 
         .tile-icon {
-            width: 36px;
-            height: 36px;
+            width: 26px;
+            height: 26px;
             color: var(--rust-light);
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             position: relative;
         }
 
@@ -1187,16 +1187,16 @@
         .tile-title {
             font-family: 'recoleta', serif;
             font-weight: 900;
-            font-size: 1.15rem;
+            font-size: 0.95rem;
             color: var(--warm-white);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             letter-spacing: -0.02em;
             position: relative;
         }
 
         .tile-desc {
-            font-size: 0.82rem;
-            line-height: 1.65;
+            font-size: 0.75rem;
+            line-height: 1.55;
             color: var(--sand);
             position: relative;
         }
@@ -1217,12 +1217,12 @@
 
         .process-footer {
             text-align: center;
-            margin-top: 2rem;
+            margin-top: 1.25rem;
         }
 
         .process-footer p {
-            font-size: 0.82rem;
-            line-height: 1.6;
+            font-size: 0.75rem;
+            line-height: 1.5;
             color: var(--earth);
             font-style: italic;
         }
@@ -1231,8 +1231,8 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            margin-top: 1.25rem;
-            padding: 0.85rem 2rem;
+            margin-top: 0.75rem;
+            padding: 0.7rem 1.75rem;
             border: 1.5px solid var(--rust);
             border-radius: 100px;
             color: var(--warm-white);
