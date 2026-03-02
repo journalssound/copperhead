@@ -160,7 +160,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, rgba(30,26,23,0.35) 0%, rgba(30,26,23,0.68) 70%, rgba(30,26,23,0.85) 100%);
+            background: linear-gradient(180deg, rgba(30,26,23,0.22) 0%, rgba(30,26,23,0.52) 60%, rgba(30,26,23,0.82) 100%);
             pointer-events: none;
             z-index: 1;
         }
@@ -182,11 +182,11 @@
             position: relative;
             transform-style: preserve-3d;
             transform: rotateX(-8deg) rotateY(0deg);
-            transition: transform 0.12s linear;
             pointer-events: auto;
             cursor: grab;
             user-select: none;
             touch-action: none;
+            will-change: transform;
         }
 
         .hero-carousel.is-dragging {
@@ -206,9 +206,11 @@
             box-shadow: 0 26px 74px rgba(0,0,0,0.5);
             opacity: 0.34;
             filter: blur(1.3px);
-            transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) translateZ(380px);
-            transition: opacity 0.45s ease, filter 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+            transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) translateZ(380px) scale(0.92);
+            transition: opacity 0.5s ease, filter 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, transform 0.5s ease;
             pointer-events: none;
+            will-change: opacity, filter, transform;
+            backface-visibility: hidden;
         }
 
         .hero-panel video {
@@ -228,29 +230,26 @@
         }
 
         .hero-panel.is-mid {
-            opacity: 0.62;
-            filter: blur(0.45px);
+            opacity: 0.68;
+            filter: blur(0.3px);
             border-color: rgba(255,255,255,0.22);
+            transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) translateZ(380px) scale(0.96);
         }
 
         .hero-panel.is-front {
-            opacity: 0.98;
+            opacity: 1;
             filter: blur(0);
-            border-color: rgba(255,255,255,0.38);
-            box-shadow: 0 30px 90px rgba(0,0,0,0.66), 0 0 0 1px rgba(255,255,255,0.1) inset;
+            border-color: rgba(255,255,255,0.42);
+            box-shadow: 0 30px 90px rgba(0,0,0,0.66), 0 0 0 1px rgba(255,255,255,0.12) inset, 0 0 60px rgba(183,73,30,0.08);
+            transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) translateZ(380px) scale(1.08);
         }
 
         .hero-panel.is-front::after {
-            opacity: 0.04;
+            opacity: 0.02;
         }
 
         .hero-panel.is-front video {
-            filter: saturate(1.12) contrast(1.1);
-        }
-
-        @keyframes heroCarouselSpin {
-            0% { transform: rotateX(-8deg) rotateY(var(--hero-tilt, 0deg)); }
-            100% { transform: rotateX(-8deg) rotateY(calc(var(--hero-tilt, 0deg) + 360deg)); }
+            filter: saturate(1.15) contrast(1.12) brightness(1.04);
         }
 
         .hero-inner {
@@ -966,9 +965,15 @@
             .hero-panel {
                 width: 210px;
                 height: 130px;
-                transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) translateZ(220px);
+                transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) translateZ(220px) scale(0.9);
                 opacity: 0.3;
                 filter: blur(0.9px);
+            }
+            .hero-panel.is-front {
+                transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) translateZ(220px) scale(1.05);
+            }
+            .hero-panel.is-mid {
+                transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) translateZ(220px) scale(0.95);
             }
             .hero-panel:nth-child(n+4) {
                 display: none;
@@ -1593,27 +1598,27 @@
         <div class="hero-bg-3d" id="heroLayer3d" aria-hidden="true">
             <div class="hero-carousel" id="heroCarousel">
             <div class="hero-panel" style="--i: 0;">
-                <video autoplay muted loop playsinline preload="metadata">
+                <video autoplay muted loop playsinline preload="auto" webkit-playsinline>
                     <source src="https://pub-81311582623740bfa075caecede5db9a.r2.dev/Love_2.5.mp4" type="video/mp4">
                 </video>
             </div>
             <div class="hero-panel" style="--i: 1;">
-                <video autoplay muted loop playsinline preload="metadata">
+                <video autoplay muted loop playsinline preload="auto" webkit-playsinline>
                     <source src="https://pub-81311582623740bfa075caecede5db9a.r2.dev/STEM%20Robotics%20Promo.mp4" type="video/mp4">
                 </video>
             </div>
             <div class="hero-panel" style="--i: 2;">
-                <video autoplay muted loop playsinline preload="metadata">
+                <video autoplay muted loop playsinline preload="auto" webkit-playsinline>
                     <source src="https://pub-81311582623740bfa075caecede5db9a.r2.dev/James%20Aidan%20King%20DP%20Reel%202025.mp4" type="video/mp4">
                 </video>
             </div>
             <div class="hero-panel" style="--i: 3;">
-                <video autoplay muted loop playsinline preload="metadata">
+                <video autoplay muted loop playsinline preload="auto" webkit-playsinline>
                     <source src="https://pub-81311582623740bfa075caecede5db9a.r2.dev/STEM%20Robotics%20Promo.mp4" type="video/mp4">
                 </video>
             </div>
             <div class="hero-panel" style="--i: 4;">
-                <video autoplay muted loop playsinline preload="metadata">
+                <video autoplay muted loop playsinline preload="auto" webkit-playsinline>
                     <source src="https://pub-81311582623740bfa075caecede5db9a.r2.dev/Love_2.5.mp4" type="video/mp4">
                 </video>
             </div>
@@ -2243,51 +2248,96 @@
             var heroVideos = Array.prototype.slice.call(document.querySelectorAll('.hero-panel video'));
             if (!carousel) return;
 
-            function startHeroVideos() {
-                heroVideos.forEach(function(video) {
-                    video.muted = true;
-                    video.playsInline = true;
-                    video.loop = true;
-                    video.autoplay = true;
-                    video.preload = 'auto';
-                    video.setAttribute('muted', '');
-                    if (video.readyState < 2) {
-                        video.load();
-                    }
-                    var p = video.play();
-                    if (p && typeof p.catch === 'function') {
-                        p.catch(function() {});
-                    }
-                });
+            /* --- Robust Video Playback --- */
+            function forcePlay(video) {
+                video.muted = true;
+                video.setAttribute('muted', '');
+                var p = video.play();
+                if (p && typeof p.catch === 'function') {
+                    p.catch(function() {
+                        /* Safari / iOS fallback: re-set src and try again */
+                        video.muted = true;
+                        video.setAttribute('muted', '');
+                        video.currentTime = 0;
+                        video.play().catch(function() {});
+                    });
+                }
             }
 
-            startHeroVideos();
-            window.addEventListener('load', startHeroVideos);
+            /* Attach per-video event listeners so play triggers as soon as data is ready */
+            heroVideos.forEach(function(video) {
+                video.muted = true;
+                video.playsInline = true;
+                video.loop = true;
+                video.autoplay = true;
+                video.preload = 'auto';
+                video.setAttribute('muted', '');
+                video.setAttribute('playsinline', '');
+
+                /* Play as soon as enough data is buffered */
+                video.addEventListener('canplay', function() {
+                    if (video.paused) forcePlay(video);
+                });
+                video.addEventListener('loadeddata', function() {
+                    if (video.paused) forcePlay(video);
+                });
+                /* If the video stalls, try to resume */
+                video.addEventListener('stalled', function() {
+                    setTimeout(function() { if (video.paused) forcePlay(video); }, 800);
+                });
+                video.addEventListener('waiting', function() {
+                    setTimeout(function() { if (video.paused) forcePlay(video); }, 800);
+                });
+
+                /* Kick off initial play */
+                forcePlay(video);
+            });
+
+            /* Catch-all: poll every 2s and play anything that stalled */
             setInterval(function() {
                 heroVideos.forEach(function(video) {
-                    if (video.paused) {
-                        var p = video.play();
-                        if (p && typeof p.catch === 'function') p.catch(function() {});
-                    }
+                    if (video.paused || video.ended) forcePlay(video);
                 });
-            }, 2500);
+            }, 2000);
+
+            /* Re-play when tab becomes visible again */
             document.addEventListener('visibilitychange', function() {
                 if (document.visibilityState === 'visible') {
-                    startHeroVideos();
+                    heroVideos.forEach(function(v) { forcePlay(v); });
                 }
             });
 
+            /* Additional kick on page fully loaded (images, fonts, etc.) */
+            window.addEventListener('load', function() {
+                heroVideos.forEach(function(v) { forcePlay(v); });
+            });
+
+            /* First user interaction fallback (iOS Safari) */
+            var hasInteracted = false;
+            function onFirstInteraction() {
+                if (hasInteracted) return;
+                hasInteracted = true;
+                heroVideos.forEach(function(v) { forcePlay(v); });
+                document.removeEventListener('touchstart', onFirstInteraction);
+                document.removeEventListener('click', onFirstInteraction);
+            }
+            document.addEventListener('touchstart', onFirstInteraction, { passive: true });
+            document.addEventListener('click', onFirstInteraction);
+
+            /* --- Carousel Rotation --- */
             var panelCount = heroPanels.length;
             if (!panelCount) return;
 
             var panelStep = 360 / panelCount;
             var isMobile = window.matchMedia('(max-width: 768px)').matches;
-            var autoSpeed = isMobile ? 2.2 : 2.8;
+            var autoSpeed = isMobile ? 1.8 : 2.4;  /* slightly slower for cinematic feel */
             var rotation = 0;
             var dragVelocity = 0;
             var isDragging = false;
             var isSnapping = false;
             var snapTarget = 0;
+            var snapPause = 0;       /* ms timestamp when snap finished — brief hold */
+            var SNAP_HOLD_MS = 1200; /* pause on snapped panel before auto-rotating */
             var lastX = 0;
             var lastFrame = 0;
             var lastDragTime = 0;
@@ -2306,8 +2356,8 @@
                 heroPanels.forEach(function(panel, i) {
                     var panelAngle = normalizeAngle((i * panelStep) + rotation);
                     var dist = angularDistance(panelAngle, 0);
-                    panel.classList.toggle('is-front', dist <= 22);
-                    panel.classList.toggle('is-mid', dist > 22 && dist <= 58);
+                    panel.classList.toggle('is-front', dist <= 24);
+                    panel.classList.toggle('is-mid', dist > 24 && dist <= 62);
                 });
             }
 
@@ -2319,6 +2369,7 @@
             function tick(ts) {
                 if (!lastFrame) lastFrame = ts;
                 var dt = (ts - lastFrame) / 1000;
+                if (dt > 0.1) dt = 0.016; /* cap delta to avoid jumps on tab-switch */
                 lastFrame = ts;
 
                 if (!isDragging) {
@@ -2326,14 +2377,18 @@
                         var diff = snapTarget - rotation;
                         if (diff > 180) diff -= 360;
                         if (diff < -180) diff += 360;
-                        rotation += diff * Math.min(1, dt * 9);
-                        if (Math.abs(diff) < 0.08) {
+                        rotation += diff * Math.min(1, dt * 8);
+                        if (Math.abs(diff) < 0.05) {
                             rotation = snapTarget;
                             isSnapping = false;
+                            snapPause = ts; /* mark when snap completed */
                         }
+                    } else if (snapPause && (ts - snapPause) < SNAP_HOLD_MS) {
+                        /* Hold on the snapped panel briefly */
                     } else {
+                        snapPause = 0;
                         rotation += (autoSpeed + dragVelocity) * dt;
-                        dragVelocity *= Math.pow(0.9, dt * 60);
+                        dragVelocity *= Math.pow(0.92, dt * 60);
                         if (Math.abs(dragVelocity) < 0.02) dragVelocity = 0;
                     }
                     render();
@@ -2348,10 +2403,12 @@
                 dragVelocity = 0;
             }
 
+            /* --- Mouse Events --- */
             hero.addEventListener('mousedown', function(e) {
                 if (e.target.closest('.hero-cta')) return;
                 isDragging = true;
                 isSnapping = false;
+                snapPause = 0;
                 carousel.classList.add('is-dragging');
                 hero.classList.add('is-dragging');
                 lastX = e.clientX;
@@ -2363,10 +2420,10 @@
                 if (!isDragging) return;
                 var now = performance.now();
                 var dx = e.clientX - lastX;
-                var dt = Math.max(16, now - lastDragTime);
+                var elapsed = Math.max(16, now - lastDragTime);
                 var deltaDeg = dx * 0.22;
                 rotation += deltaDeg;
-                dragVelocity = deltaDeg / (dt / 1000);
+                dragVelocity = deltaDeg / (elapsed / 1000);
                 lastX = e.clientX;
                 lastDragTime = now;
                 render();
@@ -2391,6 +2448,43 @@
                     }
                 });
             }
+
+            /* --- Touch Events (mobile) --- */
+            hero.addEventListener('touchstart', function(e) {
+                if (e.target.closest('.hero-cta')) return;
+                var touch = e.touches[0];
+                isDragging = true;
+                isSnapping = false;
+                snapPause = 0;
+                carousel.classList.add('is-dragging');
+                hero.classList.add('is-dragging');
+                lastX = touch.clientX;
+                lastDragTime = performance.now();
+                dragVelocity = 0;
+            }, { passive: true });
+
+            window.addEventListener('touchmove', function(e) {
+                if (!isDragging) return;
+                var touch = e.touches[0];
+                var now = performance.now();
+                var dx = touch.clientX - lastX;
+                var elapsed = Math.max(16, now - lastDragTime);
+                var deltaDeg = dx * 0.28;
+                rotation += deltaDeg;
+                dragVelocity = deltaDeg / (elapsed / 1000);
+                lastX = touch.clientX;
+                lastDragTime = now;
+                render();
+            }, { passive: true });
+
+            window.addEventListener('touchend', function() {
+                if (!isDragging) return;
+                isDragging = false;
+                carousel.classList.remove('is-dragging');
+                hero.classList.remove('is-dragging');
+                dragVelocity = Math.max(-9, Math.min(9, dragVelocity));
+                beginSnap();
+            });
 
             render();
             requestAnimationFrame(tick);
