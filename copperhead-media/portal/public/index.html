@@ -19,6 +19,7 @@
             <nav class="topbar-nav" id="topNav">
                 <a href="#overview" class="active">Overview</a>
                 <a href="#analytics">Analytics</a>
+                <a href="#content">Content</a>
                 <a href="#assets">Assets</a>
             </nav>
             <button class="topbar-signout" id="logoutBtn">
@@ -105,6 +106,25 @@
                     <div class="perf-col">Eng. Rate</div>
                 </div>
                 <div id="perfBody"></div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- SECTION: Content Feed -->
+        <section class="section" id="content">
+            <div class="section-head">
+                <h2 class="section-title reveal">Content</h2>
+                <div class="content-filters reveal d1">
+                    <select id="contentPlatform" class="filter-select">
+                        <option value="">All Platforms</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="tiktok">TikTok</option>
+                    </select>
+                </div>
+            </div>
+            <div class="content-feed reveal d2" id="contentFeed">
+                <div class="empty-mini">Loading content...</div>
             </div>
         </section>
 

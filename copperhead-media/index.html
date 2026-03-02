@@ -502,96 +502,214 @@
             color: var(--earth);
         }
 
-        /* ===== HOW WE WORK — PROCESS TIMELINE ===== */
+        /* ===== PACKAGES ===== */
         .packages {
             background: var(--charcoal);
             padding: 8rem 3rem;
         }
 
-        .process-intro {
-            text-align: center;
-            max-width: 680px;
-            margin: -2rem auto 4rem;
-            font-size: 1.05rem;
-            line-height: 1.65;
-            color: var(--sand);
-        }
-
-        .process-timeline {
-            max-width: 780px;
+        .packages-grid {
+            max-width: 1100px;
             margin: 0 auto;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
         }
 
-        .process-timeline::before {
+        .package-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .package-card::before {
             content: '';
             position: absolute;
-            left: 27px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, var(--rust) 0%, rgba(183,73,30,0.15) 100%);
-        }
-
-        .process-step {
-            display: flex;
-            gap: 2rem;
-            padding: 2rem 0;
-            position: relative;
-        }
-
-        .step-number {
-            flex-shrink: 0;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            border: 2px solid var(--rust);
-            background: var(--charcoal);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'recoleta', serif;
-            font-weight: 900;
-            font-size: 1rem;
-            color: var(--rust-light);
-            position: relative;
-            z-index: 2;
-            transition: all 0.4s ease;
-        }
-
-        .process-step:hover .step-number {
+            top: 0; left: 0; right: 0;
+            height: 3px;
             background: var(--rust);
-            color: var(--warm-white);
+            transform: scaleX(0);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-origin: left;
         }
 
-        .step-body {
-            padding-top: 0.6rem;
+        .package-card:hover::before { transform: scaleX(1); }
+
+        .package-card:hover {
+            border-color: rgba(183, 73, 30, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
         }
 
-        .step-title {
+        .package-card.featured {
+            border-color: var(--rust);
+            background: rgba(183, 73, 30, 0.06);
+        }
+
+        .package-card.featured::before { transform: scaleX(1); }
+
+        .package-badge {
+            display: inline-block;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--charcoal);
+            background: var(--rust-light);
+            padding: 0.3rem 0.75rem;
+            border-radius: 100px;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+        }
+
+        .package-name {
             font-family: 'recoleta', serif;
             font-weight: 900;
-            font-size: 1.35rem;
+            font-size: 1.5rem;
             color: var(--warm-white);
             margin-bottom: 0.5rem;
             letter-spacing: -0.02em;
         }
 
-        .step-desc {
-            font-size: 0.88rem;
-            line-height: 1.7;
+        .package-desc {
+            font-size: 0.82rem;
+            line-height: 1.6;
+            color: var(--earth);
+            margin-bottom: 1.5rem;
+        }
+
+        .package-price {
+            font-family: 'recoleta', serif;
+            font-weight: 900;
+            font-size: 2.5rem;
+            color: var(--warm-white);
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .package-price span {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 400;
             color: var(--sand);
-            max-width: 550px;
+            letter-spacing: 0;
+        }
+
+        .package-divider {
+            width: 100%;
+            height: 1px;
+            background: rgba(255,255,255,0.06);
+            margin: 1.5rem 0;
+        }
+
+        .package-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            margin-bottom: 2rem;
+        }
+
+        .package-features li {
+            font-size: 0.82rem;
+            color: var(--sand);
+            padding-left: 1.25rem;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .package-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--rust-light);
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+
+        .package-cta {
+            display: block;
+            text-align: center;
+            padding: 0.85rem;
+            border: 1.5px solid rgba(255,255,255,0.15);
+            border-radius: 100px;
+            color: var(--warm-white);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .package-cta:hover {
+            background: var(--rust);
+            border-color: var(--rust);
+        }
+
+        .package-card.featured .package-cta {
+            background: var(--rust);
+            border-color: var(--rust);
+        }
+
+        .package-card.featured .package-cta:hover {
+            background: var(--rust-light);
+            border-color: var(--rust-light);
+        }
+
+        .packages-footer {
+            text-align: center;
+            margin-top: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .how-we-work-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.85rem 1.75rem;
+            border: 1.5px solid rgba(255,255,255,0.2);
+            border-radius: 100px;
+            color: var(--warm-white);
+            background: transparent;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.35s ease;
+        }
+
+        .how-we-work-btn:hover {
+            border-color: var(--rust);
+            background: rgba(183, 73, 30, 0.15);
+        }
+
+        .how-we-work-btn svg {
+            width: 14px;
+            height: 14px;
+            transition: transform 0.3s;
+        }
+
+        .how-we-work-btn:hover svg { transform: translateX(3px); }
+
+        @media (max-width: 968px) {
+            .packages-grid { grid-template-columns: 1fr 1fr; }
+            .package-card:last-child { grid-column: 1 / -1; max-width: 450px; margin: 0 auto; width: 100%; }
         }
 
         @media (max-width: 768px) {
-            .process-timeline::before { left: 19px; }
-            .step-number { width: 40px; height: 40px; font-size: 0.8rem; }
-            .process-step { gap: 1.25rem; padding: 1.5rem 0; }
-            .step-title { font-size: 1.1rem; }
+            .packages-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+            .package-card:last-child { max-width: none; grid-column: auto; }
         }
 
         /* ===== CONTACT ===== */
@@ -716,6 +834,7 @@
         @media (max-width: 968px) {
             .services-grid { grid-template-columns: 1fr 1fr; }
         }
+
 
         @media (max-width: 768px) {
             nav { padding: 1.25rem 1.5rem; }
@@ -905,8 +1024,6 @@
             }
         }
 
-        /* ===== How We Work button (now removed from page) ===== */
-
         /* ===== PROCESS MODAL ===== */
         .process-modal {
             position: fixed;
@@ -1046,7 +1163,7 @@
         <ul class="nav-links">
             <li><a href="#work">Work</a></li>
             <li><a href="#services">Services</a></li>
-            <li><a href="#process">How We Work</a></li>
+            <li><a href="#packages">Packages</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
         <a href="/login" class="nav-portal">
@@ -1227,60 +1344,71 @@
         </div>
     </section>
 
-    <!-- HOW WE WORK — CAMPAIGN PROCESS -->
-    <section class="packages" id="process">
-        <p class="section-label">How We Work</p>
-        <p class="process-intro fade-in">Every campaign follows the same proven framework &mdash; from discovery call to final deliverables. No retainers. No fluff. Just results.</p>
+    <!-- PACKAGES -->
+    <section class="packages" id="packages">
+        <p class="section-label">Campaign Packages</p>
+        <div class="packages-grid stagger-children">
 
-        <div class="process-timeline stagger-children">
-
-            <div class="process-step fade-in">
-                <div class="step-number">01</div>
-                <div class="step-body">
-                    <h3 class="step-title">Discovery Call</h3>
-                    <p class="step-desc">We learn about your brand, goals, audience, and the story you want to tell. This is where we align on creative direction and define deliverables.</p>
-                </div>
+            <!-- Starter -->
+            <div class="package-card fade-in">
+                <h3 class="package-name">Starter</h3>
+                <p class="package-desc">Perfect for brands testing the waters with professional content.</p>
+                <p class="package-price">$2,500 <span>/ campaign</span></p>
+                <div class="package-divider"></div>
+                <ul class="package-features">
+                    <li>1 media day (up to 4 hrs)</li>
+                    <li>5 final deliverables</li>
+                    <li>Basic editing &amp; color grade</li>
+                    <li>Optimized for 2 platforms</li>
+                    <li>1 round of revisions</li>
+                </ul>
+                <a href="#contact" class="package-cta">Get Started</a>
             </div>
 
-            <div class="process-step fade-in">
-                <div class="step-number">02</div>
-                <div class="step-body">
-                    <h3 class="step-title">Strategy &amp; Pre-Production</h3>
-                    <p class="step-desc">We build a campaign brief, shot list, and creative deck tailored to your objectives. Everything is planned before we step on set.</p>
-                </div>
+            <!-- Growth (Featured) -->
+            <div class="package-card featured fade-in">
+                <span class="package-badge">Most Popular</span>
+                <h3 class="package-name">Growth</h3>
+                <p class="package-desc">Multi-platform campaigns with full post-production and analytics.</p>
+                <p class="package-price">$5,000 <span>/ campaign</span></p>
+                <div class="package-divider"></div>
+                <ul class="package-features">
+                    <li>2 full-day media days</li>
+                    <li>12 final deliverables</li>
+                    <li>Full post-production &amp; motion</li>
+                    <li>All platform cuts included</li>
+                    <li>Analytics dashboard access</li>
+                    <li>Creative strategy session</li>
+                    <li>2 rounds of revisions</li>
+                </ul>
+                <a href="#contact" class="package-cta">Get Started</a>
             </div>
 
-            <div class="process-step fade-in">
-                <div class="step-number">03</div>
-                <div class="step-body">
-                    <h3 class="step-title">On-Site Production</h3>
-                    <p class="step-desc">Our team comes to you for dedicated media days &mdash; capturing everything from cinematic hero content to platform-specific short-form assets.</p>
-                </div>
-            </div>
-
-            <div class="process-step fade-in">
-                <div class="step-number">04</div>
-                <div class="step-body">
-                    <h3 class="step-title">Post &amp; Delivery</h3>
-                    <p class="step-desc">We handle all editing, color grading, motion graphics, and sound design. Final deliverables are reviewed, approved, and delivered on schedule.</p>
-                </div>
-            </div>
-
-            <div class="process-step fade-in">
-                <div class="step-number">05</div>
-                <div class="step-body">
-                    <h3 class="step-title">Analytics &amp; Reporting</h3>
-                    <p class="step-desc">Every campaign includes access to your Copperhead analytics dashboard &mdash; real-time performance data so you can see exactly what's working.</p>
-                </div>
+            <!-- Full Send -->
+            <div class="package-card fade-in">
+                <h3 class="package-name">Full Send</h3>
+                <p class="package-desc">Complete campaign suite with dedicated creative direction.</p>
+                <p class="package-price">Custom</p>
+                <div class="package-divider"></div>
+                <ul class="package-features">
+                    <li>3+ media days</li>
+                    <li>25+ deliverables</li>
+                    <li>Cinematic hero + short-form</li>
+                    <li>Full creative direction</li>
+                    <li>Priority analytics dashboard</li>
+                    <li>Unlimited revisions</li>
+                    <li>Dedicated campaign manager</li>
+                </ul>
+                <a href="#contact" class="package-cta">Let's Talk</a>
             </div>
 
         </div>
 
-        <div class="process-cta fade-in" style="text-align:center; margin-top: 4rem;">
-            <a href="#contact" class="hero-cta">
-                Book a Discovery Call
+        <div class="packages-footer fade-in">
+            <button class="how-we-work-btn" onclick="openProcessModal()">
+                How We Work
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </a>
+            </button>
         </div>
     </section>
 
@@ -1296,8 +1424,25 @@
         </div>
     </section>
 
-    <!-- HOW WE WORK MODAL (legacy, no longer triggered by button — kept for direct link) -->
-    <div class="process-modal" id="processModal" style="display:none"><div class="process-backdrop"></div></div>
+    <!-- HOW WE WORK MODAL -->
+    <div class="process-modal" id="processModal">
+        <div class="process-backdrop" onclick="closeProcessModal()"></div>
+        <div class="process-content">
+            <button class="process-close" onclick="closeProcessModal()">
+                <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <p class="process-label">Our Process</p>
+            <h3>How Every Campaign Works</h3>
+            <ul class="process-steps">
+                <li><strong>Discovery Call</strong> &mdash; We learn your brand, goals, and audience. This is where we align on creative direction and define deliverables.</li>
+                <li><strong>Strategy &amp; Pre-Production</strong> &mdash; Campaign brief, shot list, and creative deck tailored to your objectives. Everything planned before we step on set.</li>
+                <li><strong>On-Site Production</strong> &mdash; Our team comes to you for dedicated media days &mdash; capturing cinematic hero content to short-form assets.</li>
+                <li><strong>Post &amp; Delivery</strong> &mdash; Editing, color grading, motion graphics, and sound design. Reviewed, approved, and delivered on schedule.</li>
+                <li><strong>Analytics &amp; Reporting</strong> &mdash; Every campaign includes your Copperhead analytics dashboard with real-time performance data.</li>
+            </ul>
+            <p class="process-note">Every engagement starts with a free discovery call. No retainers, no long-term contracts &mdash; just great work, on schedule.</p>
+        </div>
+    </div>
 
     <!-- VIDEO LIGHTBOX -->
     <div class="video-lightbox" id="videoLightbox">
@@ -1476,7 +1621,10 @@
 
         // Escape key to close
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'Escape') {
+                closeLightbox();
+                closeProcessModal();
+            }
         });
 
         // Toggle mute
@@ -1487,7 +1635,36 @@
             unmutedIcon.style.display = isMuted ? '' : 'none';
         });
 
-        /* ===== (How We Work modal removed — process is now inline) ===== */
+        /* ===== How We Work Process Modal ===== */
+        var processModal = document.getElementById('processModal');
+
+        function openProcessModal() {
+            processModal.classList.add('active');
+            document.body.classList.add('lightbox-open');
+            // Stagger animate the steps
+            var steps = processModal.querySelectorAll('.process-steps li');
+            steps.forEach(function(step, i) {
+                step.style.opacity = '0';
+                step.style.transform = 'translateY(12px)';
+                step.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                setTimeout(function() {
+                    step.style.opacity = '1';
+                    step.style.transform = 'translateY(0)';
+                }, 150 + (i * 100));
+            });
+            // Animate the note
+            var note = processModal.querySelector('.process-note');
+            if (note) {
+                note.style.opacity = '0';
+                note.style.transition = 'opacity 0.5s ease';
+                setTimeout(function() { note.style.opacity = '1'; }, 700);
+            }
+        }
+
+        function closeProcessModal() {
+            processModal.classList.remove('active');
+            document.body.classList.remove('lightbox-open');
+        }
     </script>
 
 </body>

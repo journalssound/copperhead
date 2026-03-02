@@ -29,6 +29,8 @@
         loadOverview();
         initAnalyticsFilters();
         loadAnalytics();
+        loadContent();
+        initContentFilter();
         loadAssets();
         initReveal();
     });
@@ -319,6 +321,95 @@
                 '<div class="perf-col perf-val' + (isGood ? ' perf-good' : '') + '">' + engRate + '%</div>' +
             '</div>';
         }).join('');
+    }
+
+    /* ────────────────────────────────────────────
+       CONTENT FEED — Video post gallery
+       ──────────────────────────────────────────── */
+    let allPosts = [];
+
+    function initContentFilter() {
+        const sel = $('#contentPlatform');
+        if (sel) sel.addEventListener('change', () => renderContentFeed(allPosts, sel.value));
+    }
+
+    async function loadContent() {
+        const posts = await api('/posts') || [];
+        allPosts = posts.filter(p => p.status === 'published' || p.media_url);
+        // Sort by published_date desc, then scheduled_date desc
+        allPosts.sort((a, b) => {
+            const da = a.published_date || a.scheduled_date || '';
+            const db2 = b.published_date || b.scheduled_date || '';
+            return db2.localeCompare(da);
+        });
+        renderContentFeed(allPosts, '');
+    }
+
+    function renderContentFeed(posts, platformFilter) {
+        const feed = $('#contentFeed');
+        if (!feed) return;
+
+        let filtered = posts;
+        if (platformFilter) filtered = posts.filter(p => p.platform === platformFilter);
+
+        if (filtered.length === 0) {
+            feed.innerHTML = '<div class="empty-mini">No content to display</div>';
+            return;
+        }
+
+        const viewIcon = '<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+        const heartIcon = '<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+        const commentIcon = '<svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>';
+        const playIcon = '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>';
+
+        feed.innerHTML = filtered.map((post, i) => {
+            const isVideo = post.media_type === 'video' && post.media_url;
+            const hasUrl = !!post.post_url;
+            const platIcon = PLATFORM_ICONS[post.platform] || '';
+            const captionPreview = (post.caption || '').split('\n')[0];
+            const delay = (i * 0.06).toFixed(2);
+
+            let thumb = '';
+            if (isVideo) {
+                thumb = '<video src="' + post.media_url + '" muted loop playsinline preload="metadata"></video>' +
+                    '<div class="content-card-play">' + playIcon + '</div>';
+            } else {
+                thumb = '<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1512,#0d0b09);display:flex;align-items:center;justify-content:center;">' +
+                    '<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>';
+            }
+
+            const metrics = (post.views > 0 || post.likes > 0)
+                ? '<div class="content-card-metrics">' +
+                    (post.views > 0 ? '<div class="content-card-metric">' + viewIcon + '<span>' + fmtNum(post.views) + '</span></div>' : '') +
+                    (post.likes > 0 ? '<div class="content-card-metric">' + heartIcon + '<span>' + fmtNum(post.likes) + '</span></div>' : '') +
+                    (post.comments_count > 0 ? '<div class="content-card-metric">' + commentIcon + '<span>' + fmtNum(post.comments_count) + '</span></div>' : '') +
+                  '</div>'
+                : '';
+
+            const tag = hasUrl ? 'a' : 'div';
+            const href = hasUrl ? ' href="' + post.post_url + '" target="_blank" rel="noopener"' : '';
+
+            return '<' + tag + ' class="content-card"' + href + ' style="--delay:' + delay + 's">' +
+                '<div class="content-card-thumb">' +
+                    '<div class="content-card-platform">' + platIcon + '</div>' +
+                    '<span class="content-card-status ' + post.status + '">' + post.status + '</span>' +
+                    thumb +
+                '</div>' +
+                '<div class="content-card-body">' +
+                    '<div class="content-card-title">' + post.title + '</div>' +
+                    '<div class="content-card-caption">' + captionPreview + '</div>' +
+                    metrics +
+                '</div>' +
+            '</' + tag + '>';
+        }).join('');
+
+        // Auto-play videos on hover
+        feed.querySelectorAll('.content-card').forEach(card => {
+            const video = card.querySelector('video');
+            if (!video) return;
+            card.addEventListener('mouseenter', () => { video.play().catch(() => {}); });
+            card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+        });
     }
 
     /* ────────────────────────────────────────────

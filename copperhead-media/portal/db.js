@@ -24,12 +24,19 @@ const assets = [];
 // ──────────────────────────────────────────
 // Seed demo data
 // ──────────────────────────────────────────
-function addPost(title, caption, platform, status, scheduled_date, media_type) {
+function addPost(title, caption, platform, status, scheduled_date, media_type, opts) {
+  opts = opts || {};
   const ts = now();
   posts.push({
-    id: nextPostId++, title, caption, platform, media_url: null,
+    id: nextPostId++, title, caption, platform,
+    media_url: opts.media_url || null,
     media_type: media_type || 'image', status, scheduled_date,
-    published_date: null, created_at: ts, updated_at: ts
+    published_date: opts.published_date || null,
+    post_url: opts.post_url || null,
+    views: opts.views || 0,
+    likes: opts.likes || 0,
+    comments_count: opts.comments_count || 0,
+    created_at: ts, updated_at: ts
   });
 }
 
@@ -41,25 +48,65 @@ function addComment(post_id, author, content, is_internal) {
 }
 
 // Posts — rich demo content for "journals." client portal
-addPost('Spring Collection Launch', 'New arrivals are here 🌿 Which piece is your favorite? Drop a comment below!\n\n#springcollection #newdrops #fashion', 'instagram', 'published', '2026-03-01', 'image');
-addPost('Behind the Scenes', 'A look at how the magic happens. Swipe to see the full setup →\n\n#bts #contentcreation #onset', 'instagram', 'published', '2026-03-01', 'image');
-addPost('March Content Kickoff', 'Big things coming this month. Stay tuned 👀\n\n#march #comingsoon', 'tiktok', 'published', '2026-03-02', 'video');
-addPost('Client Testimonial — Sarah K.', '"Working with journals. has completely transformed how I show up online." — Sarah K.\n\nFull story in bio ↗', 'facebook', 'published', '2026-02-28', 'video');
+addPost('Spring Collection Launch', 'New arrivals are here 🌿 Which piece is your favorite? Drop a comment below!\n\n#springcollection #newdrops #fashion', 'instagram', 'published', '2026-03-01', 'video', {
+  media_url: 'https://pub-81311582623740bfa075caecede5db9a.r2.dev/Love_2.5.mp4',
+  post_url: 'https://www.instagram.com/reel/DJK3xL9pOHt/',
+  published_date: '2026-03-01', views: 14200, likes: 892, comments_count: 47
+});
+addPost('Behind the Scenes', 'A look at how the magic happens. Swipe to see the full setup →\n\n#bts #contentcreation #onset', 'instagram', 'published', '2026-03-01', 'video', {
+  media_url: 'https://pub-81311582623740bfa075caecede5db9a.r2.dev/STEM%20Robotics%20Promo.mp4',
+  post_url: 'https://www.instagram.com/reel/DJK3xL9pOHt/',
+  published_date: '2026-03-01', views: 8400, likes: 623, comments_count: 31
+});
+addPost('March Content Kickoff', 'Big things coming this month. Stay tuned 👀\n\n#march #comingsoon', 'tiktok', 'published', '2026-03-02', 'video', {
+  media_url: 'https://pub-81311582623740bfa075caecede5db9a.r2.dev/James%20Aidan%20King%20DP%20Reel%202025.mp4',
+  post_url: 'https://www.tiktok.com/@journals.sound',
+  published_date: '2026-03-02', views: 32600, likes: 2140, comments_count: 189
+});
+addPost('Client Testimonial — Sarah K.', '"Working with journals. has completely transformed how I show up online." — Sarah K.\n\nFull story in bio ↗', 'instagram', 'published', '2026-02-28', 'video', {
+  media_url: 'https://pub-81311582623740bfa075caecede5db9a.r2.dev/Love_2.5.mp4',
+  post_url: 'https://www.instagram.com/reel/DJK3xL9pOHt/',
+  published_date: '2026-02-28', views: 11300, likes: 745, comments_count: 52
+});
 addPost('Product Spotlight: Copper Mug', 'Handcrafted. Timeless. Available now.\n\nShop the link in bio.', 'instagram', 'scheduled', '2026-03-03', 'image');
-addPost('Weekend Vibes Reel', 'POV: your weekend plans just got an upgrade 🎬\n\n#reels #weekendvibes', 'tiktok', 'approved', '2026-03-04', 'video');
+addPost('Weekend Vibes Reel', 'POV: your weekend plans just got an upgrade 🎬\n\n#reels #weekendvibes', 'tiktok', 'published', '2026-03-04', 'video', {
+  media_url: 'https://pub-81311582623740bfa075caecede5db9a.r2.dev/STEM%20Robotics%20Promo.mp4',
+  post_url: 'https://www.tiktok.com/@journals.sound',
+  published_date: '2026-03-04', views: 47800, likes: 3210, comments_count: 267
+});
 addPost('Founder Story Carousel', 'From a side project to a full-time passion — the story of how journals. came to be.\n\nSwipe through for the full journey →', 'instagram', 'pending', '2026-03-05', 'image');
-addPost('Quick Tips: Lighting Setup', 'Three simple tips to upgrade your at-home content lighting. Save this for later 💡\n\n#contenttips #lighting #creator', 'tiktok', 'approved', '2026-03-06', 'video');
+addPost('Quick Tips: Lighting Setup', 'Three simple tips to upgrade your at-home content lighting. Save this for later 💡\n\n#contenttips #lighting #creator', 'tiktok', 'published', '2026-03-06', 'video', {
+  media_url: 'https://pub-81311582623740bfa075caecede5db9a.r2.dev/James%20Aidan%20King%20DP%20Reel%202025.mp4',
+  post_url: 'https://www.tiktok.com/@journals.sound',
+  published_date: '2026-03-06', views: 28900, likes: 1870, comments_count: 143
+});
 addPost('Community Feature Friday', 'Shoutout to our amazing community this week 🙌\n\nTag us to be featured next Friday!\n\n#communitylove #featurefriday', 'instagram', 'scheduled', '2026-03-07', 'image');
-addPost('Event Recap: Art Walk', 'Last night was one for the books. Thanks to everyone who came out to the Art Walk!\n\n#events #community #artnight', 'facebook', 'published', '2026-02-27', 'image');
+addPost('Event Recap: Art Walk', 'Last night was one for the books. Thanks to everyone who came out to the Art Walk!\n\n#events #community #artnight', 'instagram', 'published', '2026-02-27', 'video', {
+  media_url: 'https://pub-81311582623740bfa075caecede5db9a.r2.dev/STEM%20Robotics%20Promo.mp4',
+  post_url: 'https://www.instagram.com/reel/DJK3xL9pOHt/',
+  published_date: '2026-02-27', views: 9800, likes: 534, comments_count: 28
+});
 addPost('Monday Motivation', 'Start your week with intention. What\'s one thing you\'re focusing on this week?\n\n#mondaymotivation #intentionalliving', 'instagram', 'pending', '2026-03-09', 'image');
-addPost('New Workshop Announcement', 'We\'re hosting a brand photography workshop on March 20th! Limited spots — link in bio to register.\n\n#workshop #brandphotography', 'facebook', 'pending', '2026-03-10', 'image');
-addPost('Mini Vlog: Studio Day', 'Spend the day with us in the studio. Lots of coffee, good music, and great content.\n\n#studiovlog #dayinthelife', 'tiktok', 'draft', '2026-03-11', 'video');
-addPost('Flash Sale Announcement', '48 hours only. 25% off everything in store. Use code COPPER25 at checkout.\n\n#flashsale #shopnow', 'facebook', 'pending', '2026-03-12', 'image');
+addPost('New Workshop Announcement', 'We\'re hosting a brand photography workshop on March 20th! Limited spots — link in bio to register.\n\n#workshop #brandphotography', 'instagram', 'pending', '2026-03-10', 'image');
+addPost('Mini Vlog: Studio Day', 'Spend the day with us in the studio. Lots of coffee, good music, and great content.\n\n#studiovlog #dayinthelife', 'tiktok', 'published', '2026-03-11', 'video', {
+  media_url: 'https://pub-81311582623740bfa075caecede5db9a.r2.dev/Love_2.5.mp4',
+  post_url: 'https://www.tiktok.com/@journals.sound',
+  published_date: '2026-03-11', views: 21400, likes: 1560, comments_count: 98
+});
+addPost('Flash Sale Announcement', '48 hours only. 25% off everything in store. Use code COPPER25 at checkout.\n\n#flashsale #shopnow', 'instagram', 'pending', '2026-03-12', 'image');
 addPost('Meet the Team', 'The faces behind the brand. Get to know the creators who make it all happen.\n\n#meettheteam #agency #copperhead', 'instagram', 'draft', '2026-03-14', 'image');
-addPost('Recipe Reel: Matcha Latte', 'Our go-to morning ritual. Oat milk + ceremonial grade matcha = perfection ✨\n\n#matcha #morningroutine', 'tiktok', 'scheduled', '2026-03-15', 'video');
+addPost('Recipe Reel: Matcha Latte', 'Our go-to morning ritual. Oat milk + ceremonial grade matcha = perfection ✨\n\n#matcha #morningroutine', 'tiktok', 'published', '2026-03-15', 'video', {
+  media_url: 'https://pub-81311582623740bfa075caecede5db9a.r2.dev/James%20Aidan%20King%20DP%20Reel%202025.mp4',
+  post_url: 'https://www.tiktok.com/@journals.sound',
+  published_date: '2026-03-15', views: 38100, likes: 2680, comments_count: 215
+});
 addPost('Q&A Story Series', 'You asked, we answered. Tap through for our most-asked questions about branding & content.\n\n#qanda #branding', 'instagram', 'approved', '2026-03-16', 'image');
-addPost('Spring Cleaning for Your Brand', 'Is your brand due for a refresh? Here are 5 signs it\'s time.\n\nSave this post for later 📌', 'facebook', 'draft', '2026-03-18', 'image');
-addPost('Throwback Thursday', 'One year ago vs. now — what a difference consistency makes.\n\n#tbt #growth #brandjourney', 'instagram', 'scheduled', '2026-03-20', 'image');
+addPost('Spring Cleaning for Your Brand', 'Is your brand due for a refresh? Here are 5 signs it\'s time.\n\nSave this post for later 📌', 'instagram', 'draft', '2026-03-18', 'image');
+addPost('Throwback Thursday', 'One year ago vs. now — what a difference consistency makes.\n\n#tbt #growth #brandjourney', 'instagram', 'published', '2026-03-20', 'video', {
+  media_url: 'https://pub-81311582623740bfa075caecede5db9a.r2.dev/Love_2.5.mp4',
+  post_url: 'https://www.instagram.com/reel/DJK3xL9pOHt/',
+  published_date: '2026-03-20', views: 12700, likes: 894, comments_count: 41
+});
 addPost('End of Month Wrap-Up', 'March was a big month. Here\'s a look back at everything we accomplished together.\n\n#monthlyrecap #progress', 'tiktok', 'draft', '2026-03-28', 'video');
 
 // Comments — rich back-and-forth for demo
