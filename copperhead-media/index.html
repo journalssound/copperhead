@@ -164,7 +164,7 @@
             position: absolute;
             inset: 0;
             z-index: 0;
-            pointer-events: none;
+            pointer-events: auto;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -176,9 +176,16 @@
             height: min(58vh, 520px);
             position: relative;
             transform-style: preserve-3d;
-            transform: rotateX(-8deg) rotateY(var(--hero-tilt, 0deg));
-            animation: heroCarouselSpin 72s linear infinite;
-            transition: transform 0.45s ease-out;
+            transform: rotateX(-8deg) rotateY(0deg);
+            transition: transform 0.12s linear;
+            pointer-events: auto;
+            cursor: grab;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .hero-carousel.is-dragging {
+            cursor: grabbing;
         }
 
         .hero-panel {
@@ -192,10 +199,11 @@
             border: 1px solid rgba(255,255,255,0.16);
             background: rgba(255,255,255,0.03);
             box-shadow: 0 26px 74px rgba(0,0,0,0.5);
-            opacity: 0.62;
+            opacity: 0.34;
+            filter: blur(1.3px);
             transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) translateZ(380px);
-            animation: heroPanelFocus 10s ease-in-out infinite;
-            animation-delay: calc(var(--i) * -1.2s);
+            transition: opacity 0.45s ease, filter 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+            pointer-events: none;
         }
 
         .hero-panel video {
@@ -211,16 +219,33 @@
             position: absolute;
             inset: 0;
             background: linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.42) 100%);
+            transition: opacity 0.4s ease;
+        }
+
+        .hero-panel.is-mid {
+            opacity: 0.62;
+            filter: blur(0.45px);
+            border-color: rgba(255,255,255,0.22);
+        }
+
+        .hero-panel.is-front {
+            opacity: 0.98;
+            filter: blur(0);
+            border-color: rgba(255,255,255,0.38);
+            box-shadow: 0 30px 90px rgba(0,0,0,0.66), 0 0 0 1px rgba(255,255,255,0.1) inset;
+        }
+
+        .hero-panel.is-front::after {
+            opacity: 0.04;
+        }
+
+        .hero-panel.is-front video {
+            filter: saturate(1.12) contrast(1.1);
         }
 
         @keyframes heroCarouselSpin {
             0% { transform: rotateX(-8deg) rotateY(var(--hero-tilt, 0deg)); }
             100% { transform: rotateX(-8deg) rotateY(calc(var(--hero-tilt, 0deg) + 360deg)); }
-        }
-
-        @keyframes heroPanelFocus {
-            0%, 100% { filter: blur(0.95px); opacity: 0.5; }
-            50% { filter: blur(0px); opacity: 0.82; }
         }
 
         .hero-inner {
@@ -927,14 +952,13 @@
             .hero-carousel {
                 width: 100%;
                 height: 48vh;
-                animation-duration: 56s;
             }
             .hero-panel {
                 width: 210px;
                 height: 130px;
                 transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) translateZ(220px);
-                opacity: 0.52;
-                filter: blur(0.45px);
+                opacity: 0.3;
+                filter: blur(0.9px);
             }
             .hero-panel:nth-child(n+4) {
                 display: none;
@@ -2205,12 +2229,21 @@
         (function() {
             var hero = document.querySelector('.hero');
             var carousel = document.getElementById('heroCarousel');
-            var heroVideos = document.querySelectorAll('.hero-panel video');
+            var heroPanels = Array.prototype.slice.call(document.querySelectorAll('.hero-panel'));
+            var heroVideos = Array.prototype.slice.call(document.querySelectorAll('.hero-panel video'));
+            if (!carousel) return;
 
             function startHeroVideos() {
                 heroVideos.forEach(function(video) {
                     video.muted = true;
                     video.playsInline = true;
+                    video.loop = true;
+                    video.autoplay = true;
+                    video.preload = 'auto';
+                    video.setAttribute('muted', '');
+                    if (video.readyState < 2) {
+                        video.load();
+                    }
                     var p = video.play();
                     if (p && typeof p.catch === 'function') {
                         p.catch(function() {});
@@ -2219,24 +2252,112 @@
             }
 
             startHeroVideos();
+            window.addEventListener('load', startHeroVideos);
+            setInterval(function() {
+                heroVideos.forEach(function(video) {
+                    if (video.paused) {
+                        var p = video.play();
+                        if (p && typeof p.catch === 'function') p.catch(function() {});
+                    }
+                });
+            }, 2500);
             document.addEventListener('visibilitychange', function() {
                 if (document.visibilityState === 'visible') {
                     startHeroVideos();
                 }
             });
 
-            if (!hero || !carousel || window.matchMedia('(max-width: 768px)').matches) return;
+            var panelCount = heroPanels.length;
+            if (!panelCount) return;
 
-            hero.addEventListener('mousemove', function(e) {
-                var rect = hero.getBoundingClientRect();
-                var x = (e.clientX - rect.left) / rect.width;
-                var tilt = (x - 0.5) * 14;
-                carousel.style.setProperty('--hero-tilt', tilt.toFixed(2) + 'deg');
+            var panelStep = 360 / panelCount;
+            var isMobile = window.matchMedia('(max-width: 768px)').matches;
+            var autoSpeed = isMobile ? 2.2 : 2.8;
+            var rotation = 0;
+            var dragVelocity = 0;
+            var isDragging = false;
+            var lastX = 0;
+            var lastFrame = 0;
+            var lastDragTime = 0;
+
+            function normalizeAngle(angle) {
+                var normalized = angle % 360;
+                return normalized < 0 ? normalized + 360 : normalized;
+            }
+
+            function angularDistance(a, b) {
+                var d = Math.abs(a - b) % 360;
+                return d > 180 ? 360 - d : d;
+            }
+
+            function updatePanelStates() {
+                heroPanels.forEach(function(panel, i) {
+                    var panelAngle = normalizeAngle((i * panelStep) + rotation);
+                    var dist = angularDistance(panelAngle, 0);
+                    panel.classList.toggle('is-front', dist <= 22);
+                    panel.classList.toggle('is-mid', dist > 22 && dist <= 58);
+                });
+            }
+
+            function render() {
+                carousel.style.transform = 'rotateX(-8deg) rotateY(' + rotation.toFixed(2) + 'deg)';
+                updatePanelStates();
+            }
+
+            function tick(ts) {
+                if (!lastFrame) lastFrame = ts;
+                var dt = (ts - lastFrame) / 1000;
+                lastFrame = ts;
+
+                if (!isDragging) {
+                    rotation += (autoSpeed + dragVelocity) * dt;
+                    dragVelocity *= Math.pow(0.9, dt * 60);
+                    if (Math.abs(dragVelocity) < 0.02) dragVelocity = 0;
+                    render();
+                }
+
+                requestAnimationFrame(tick);
+            }
+
+            carousel.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                carousel.classList.add('is-dragging');
+                lastX = e.clientX;
+                lastDragTime = performance.now();
+                dragVelocity = 0;
             });
 
-            hero.addEventListener('mouseleave', function() {
-                carousel.style.setProperty('--hero-tilt', '0deg');
+            window.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                var now = performance.now();
+                var dx = e.clientX - lastX;
+                var dt = Math.max(16, now - lastDragTime);
+                var deltaDeg = dx * 0.22;
+                rotation += deltaDeg;
+                dragVelocity = deltaDeg / (dt / 1000);
+                lastX = e.clientX;
+                lastDragTime = now;
+                render();
             });
+
+            window.addEventListener('mouseup', function() {
+                if (!isDragging) return;
+                isDragging = false;
+                carousel.classList.remove('is-dragging');
+                dragVelocity = Math.max(-9, Math.min(9, dragVelocity));
+            });
+
+            if (hero) {
+                hero.addEventListener('mouseleave', function() {
+                    if (isDragging) {
+                        isDragging = false;
+                        carousel.classList.remove('is-dragging');
+                    }
+                });
+            }
+
+            render();
+            requestAnimationFrame(tick);
         })();
     </script>
 
