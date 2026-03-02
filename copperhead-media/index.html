@@ -162,26 +162,43 @@
 
         .hero-bg-3d {
             position: absolute;
-            inset: -8%;
+            inset: 0;
             z-index: 0;
             pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transform-style: preserve-3d;
-            transform: translate3d(calc(var(--mx, 0px) * 0.018), calc(var(--my, 0px) * 0.018), 0px);
-            transition: transform 0.35s ease-out;
         }
 
-        .hero-card {
+        .hero-carousel {
+            width: min(88vw, 980px);
+            height: min(58vh, 520px);
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-8deg) rotateY(var(--hero-tilt, 0deg));
+            animation: heroCarouselSpin 32s linear infinite;
+            transition: transform 0.45s ease-out;
+        }
+
+        .hero-panel {
             position: absolute;
+            top: 50%;
+            left: 50%;
+            width: clamp(220px, 25vw, 320px);
+            height: clamp(138px, 16vw, 200px);
             border-radius: 16px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.15);
-            box-shadow: 0 24px 70px rgba(0,0,0,0.45);
-            background: rgba(255,255,255,0.02);
-            opacity: 0.55;
-            transform-style: preserve-3d;
+            border: 1px solid rgba(255,255,255,0.16);
+            background: rgba(255,255,255,0.03);
+            box-shadow: 0 26px 74px rgba(0,0,0,0.5);
+            opacity: 0.58;
+            transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) translateZ(380px);
+            animation: heroPanelFocus 8.5s ease-in-out infinite;
+            animation-delay: calc(var(--i) * -1.2s);
         }
 
-        .hero-card video {
+        .hero-panel video {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -189,93 +206,21 @@
             filter: saturate(1.05) contrast(1.05);
         }
 
-        .hero-card::after {
+        .hero-panel::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.38) 100%);
+            background: linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.42) 100%);
         }
 
-        .card-1 {
-            width: 320px;
-            height: 200px;
-            top: 10%;
-            left: 5%;
-            transform: translateZ(-60px) rotate(-6deg);
-            filter: blur(1.5px);
-            animation: heroFloatA 13s ease-in-out infinite, heroFocusSoft 10s ease-in-out infinite;
+        @keyframes heroCarouselSpin {
+            0% { transform: rotateX(-8deg) rotateY(var(--hero-tilt, 0deg)); }
+            100% { transform: rotateX(-8deg) rotateY(calc(var(--hero-tilt, 0deg) + 360deg)); }
         }
 
-        .card-2 {
-            width: 380px;
-            height: 235px;
-            top: 18%;
-            left: 30%;
-            transform: translateZ(40px) rotate(3deg);
-            opacity: 0.72;
-            animation: heroFloatB 15s ease-in-out infinite, heroFocusSharp 12s ease-in-out infinite;
-        }
-
-        .card-3 {
-            width: 310px;
-            height: 190px;
-            top: 8%;
-            right: 7%;
-            transform: translateZ(-90px) rotate(7deg);
-            filter: blur(2px);
-            animation: heroFloatC 14s ease-in-out infinite, heroFocusSoft 11s ease-in-out infinite;
-        }
-
-        .card-4 {
-            width: 360px;
-            height: 220px;
-            bottom: 12%;
-            left: 16%;
-            transform: translateZ(-20px) rotate(-4deg);
-            opacity: 0.62;
-            filter: blur(1px);
-            animation: heroFloatD 16s ease-in-out infinite, heroFocusSoft 12s ease-in-out infinite;
-        }
-
-        .card-5 {
-            width: 340px;
-            height: 210px;
-            bottom: 10%;
-            right: 14%;
-            transform: translateZ(20px) rotate(5deg);
-            opacity: 0.7;
-            animation: heroFloatE 12.5s ease-in-out infinite, heroFocusSharp 11s ease-in-out infinite;
-        }
-
-        @keyframes heroFloatA {
-            0%, 100% { transform: translate3d(0, 0, -60px) rotate(-6deg); }
-            50% { transform: translate3d(20px, -14px, -20px) rotate(-3deg); }
-        }
-        @keyframes heroFloatB {
-            0%, 100% { transform: translate3d(0, 0, 40px) rotate(3deg); }
-            50% { transform: translate3d(-18px, 12px, 75px) rotate(5deg); }
-        }
-        @keyframes heroFloatC {
-            0%, 100% { transform: translate3d(0, 0, -90px) rotate(7deg); }
-            50% { transform: translate3d(-16px, -12px, -35px) rotate(3deg); }
-        }
-        @keyframes heroFloatD {
-            0%, 100% { transform: translate3d(0, 0, -20px) rotate(-4deg); }
-            50% { transform: translate3d(22px, -14px, 18px) rotate(-1deg); }
-        }
-        @keyframes heroFloatE {
-            0%, 100% { transform: translate3d(0, 0, 20px) rotate(5deg); }
-            50% { transform: translate3d(-20px, 12px, 52px) rotate(2deg); }
-        }
-
-        @keyframes heroFocusSoft {
-            0%, 100% { filter: blur(2px); opacity: 0.5; }
-            50% { filter: blur(0.2px); opacity: 0.72; }
-        }
-        @keyframes heroFocusSharp {
-            0%, 100% { filter: blur(0.1px); opacity: 0.72; }
-            45% { filter: blur(1.4px); opacity: 0.58; }
-            70% { filter: blur(0.2px); opacity: 0.76; }
+        @keyframes heroPanelFocus {
+            0%, 100% { filter: blur(1.6px); opacity: 0.46; }
+            50% { filter: blur(0.15px); opacity: 0.72; }
         }
 
         .hero-inner {
@@ -357,8 +302,8 @@
         .hero-cta:hover svg { transform: translateX(3px); }
 
         @media (prefers-reduced-motion: reduce) {
-            .hero-card,
-            .hero-bg-3d {
+            .hero-carousel,
+            .hero-panel {
                 animation: none !important;
                 transition: none !important;
             }
@@ -979,28 +924,19 @@
                 padding-left: 1.5rem;
                 padding-right: 1.5rem;
             }
-            .hero-bg-3d {
-                inset: -3%;
+            .hero-carousel {
+                width: 100%;
+                height: 48vh;
+                animation-duration: 40s;
             }
-            .hero-card {
-                opacity: 0.42;
-                filter: blur(0.7px) !important;
+            .hero-panel {
+                width: 210px;
+                height: 130px;
+                transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) translateZ(220px);
+                opacity: 0.4;
+                filter: blur(0.8px);
             }
-            .card-1 {
-                width: 220px;
-                height: 136px;
-                top: 12%;
-                left: 2%;
-            }
-            .card-2 {
-                width: 240px;
-                height: 148px;
-                top: 20%;
-                left: auto;
-                right: 4%;
-            }
-            .card-4,
-            .card-5 {
+            .hero-panel:nth-child(n+4) {
                 display: none;
             }
             .portfolio-grid {
@@ -1621,30 +1557,32 @@
     <!-- HERO -->
     <section class="hero">
         <div class="hero-bg-3d" id="heroLayer3d" aria-hidden="true">
-            <div class="hero-card card-1">
+            <div class="hero-carousel" id="heroCarousel">
+            <div class="hero-panel" style="--i: 0;">
                 <video autoplay muted loop playsinline preload="metadata">
                     <source src="https://pub-81311582623740bfa075caecede5db9a.r2.dev/Love_2.5.mp4" type="video/mp4">
                 </video>
             </div>
-            <div class="hero-card card-2">
+            <div class="hero-panel" style="--i: 1;">
                 <video autoplay muted loop playsinline preload="metadata">
                     <source src="https://pub-81311582623740bfa075caecede5db9a.r2.dev/STEM%20Robotics%20Promo.mp4" type="video/mp4">
                 </video>
             </div>
-            <div class="hero-card card-3">
+            <div class="hero-panel" style="--i: 2;">
                 <video autoplay muted loop playsinline preload="metadata">
                     <source src="https://pub-81311582623740bfa075caecede5db9a.r2.dev/James%20Aidan%20King%20DP%20Reel%202025.mp4" type="video/mp4">
                 </video>
             </div>
-            <div class="hero-card card-4">
+            <div class="hero-panel" style="--i: 3;">
                 <video autoplay muted loop playsinline preload="metadata">
                     <source src="https://pub-81311582623740bfa075caecede5db9a.r2.dev/STEM%20Robotics%20Promo.mp4" type="video/mp4">
                 </video>
             </div>
-            <div class="hero-card card-5">
+            <div class="hero-panel" style="--i: 4;">
                 <video autoplay muted loop playsinline preload="metadata">
                     <source src="https://pub-81311582623740bfa075caecede5db9a.r2.dev/Love_2.5.mp4" type="video/mp4">
                 </video>
+            </div>
             </div>
         </div>
         <div class="hero-inner">
@@ -2263,23 +2201,21 @@
             document.body.classList.remove('lightbox-open');
         }
 
-        /* ===== Hero 3D Video Layer Parallax ===== */
+        /* ===== Hero Carousel Interaction ===== */
         (function() {
             var hero = document.querySelector('.hero');
-            var layer = document.getElementById('heroLayer3d');
-            if (!hero || !layer || window.matchMedia('(max-width: 768px)').matches) return;
+            var carousel = document.getElementById('heroCarousel');
+            if (!hero || !carousel || window.matchMedia('(max-width: 768px)').matches) return;
 
             hero.addEventListener('mousemove', function(e) {
                 var rect = hero.getBoundingClientRect();
-                var x = (e.clientX - rect.left) - (rect.width / 2);
-                var y = (e.clientY - rect.top) - (rect.height / 2);
-                layer.style.setProperty('--mx', x.toFixed(2) + 'px');
-                layer.style.setProperty('--my', y.toFixed(2) + 'px');
+                var x = (e.clientX - rect.left) / rect.width;
+                var tilt = (x - 0.5) * 14;
+                carousel.style.setProperty('--hero-tilt', tilt.toFixed(2) + 'deg');
             });
 
             hero.addEventListener('mouseleave', function() {
-                layer.style.setProperty('--mx', '0px');
-                layer.style.setProperty('--my', '0px');
+                carousel.style.setProperty('--hero-tilt', '0deg');
             });
         })();
     </script>
