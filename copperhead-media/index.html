@@ -137,6 +137,11 @@
             position: relative;
             overflow: hidden;
             perspective: 1200px;
+            cursor: grab;
+        }
+
+        .hero.is-dragging {
+            cursor: grabbing;
         }
 
         .hero::before {
@@ -252,6 +257,11 @@
             max-width: 1100px;
             position: relative;
             z-index: 2;
+            pointer-events: none;
+        }
+
+        .hero-inner .hero-cta {
+            pointer-events: auto;
         }
 
         .hero h1 {
@@ -2276,6 +2286,8 @@
             var rotation = 0;
             var dragVelocity = 0;
             var isDragging = false;
+            var isSnapping = false;
+            var snapTarget = 0;
             var lastX = 0;
             var lastFrame = 0;
             var lastDragTime = 0;
@@ -2310,18 +2322,38 @@
                 lastFrame = ts;
 
                 if (!isDragging) {
-                    rotation += (autoSpeed + dragVelocity) * dt;
-                    dragVelocity *= Math.pow(0.9, dt * 60);
-                    if (Math.abs(dragVelocity) < 0.02) dragVelocity = 0;
+                    if (isSnapping) {
+                        var diff = snapTarget - rotation;
+                        if (diff > 180) diff -= 360;
+                        if (diff < -180) diff += 360;
+                        rotation += diff * Math.min(1, dt * 9);
+                        if (Math.abs(diff) < 0.08) {
+                            rotation = snapTarget;
+                            isSnapping = false;
+                        }
+                    } else {
+                        rotation += (autoSpeed + dragVelocity) * dt;
+                        dragVelocity *= Math.pow(0.9, dt * 60);
+                        if (Math.abs(dragVelocity) < 0.02) dragVelocity = 0;
+                    }
                     render();
                 }
 
                 requestAnimationFrame(tick);
             }
 
-            carousel.addEventListener('mousedown', function(e) {
+            function beginSnap() {
+                snapTarget = Math.round(rotation / panelStep) * panelStep;
+                isSnapping = true;
+                dragVelocity = 0;
+            }
+
+            hero.addEventListener('mousedown', function(e) {
+                if (e.target.closest('.hero-cta')) return;
                 isDragging = true;
+                isSnapping = false;
                 carousel.classList.add('is-dragging');
+                hero.classList.add('is-dragging');
                 lastX = e.clientX;
                 lastDragTime = performance.now();
                 dragVelocity = 0;
@@ -2344,7 +2376,9 @@
                 if (!isDragging) return;
                 isDragging = false;
                 carousel.classList.remove('is-dragging');
+                hero.classList.remove('is-dragging');
                 dragVelocity = Math.max(-9, Math.min(9, dragVelocity));
+                beginSnap();
             });
 
             if (hero) {
@@ -2352,6 +2386,8 @@
                     if (isDragging) {
                         isDragging = false;
                         carousel.classList.remove('is-dragging');
+                        hero.classList.remove('is-dragging');
+                        beginSnap();
                     }
                 });
             }
