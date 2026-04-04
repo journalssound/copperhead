@@ -230,6 +230,18 @@ app.get('/api/uploads/status', requireAuth, (req, res) => {
   res.json({ r2Configured: r2.isConfigured() });
 });
 
+// Temporary: list all R2 bucket objects
+app.get('/api/r2/list', requireAuth, async (req, res) => {
+  try {
+    if (!r2.isConfigured()) return res.status(500).json({ error: 'R2 not configured' });
+    const prefix = req.query.prefix || '';
+    const objects = await r2.listObjects(prefix);
+    res.json({ count: objects.length, objects });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // ──────────────────────────────────────────
 // Assets API
 // ──────────────────────────────────────────

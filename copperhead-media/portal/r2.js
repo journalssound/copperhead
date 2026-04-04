@@ -10,7 +10,7 @@
  *   R2_PUBLIC_URL  (your public bucket URL, e.g. https://pub-xxx.r2.dev)
  */
 
-const { S3Client, PutObjectCommand, DeleteObjectCommand, HeadObjectCommand } = require('@aws-sdk/client-s3');
+const { S3Client, PutObjectCommand, DeleteObjectCommand, HeadObjectCommand, ListObjectsV2Command } = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 const crypto = require('crypto');
 const path = require('path');
@@ -112,4 +112,28 @@ async function headObject(key) {
   }
 }
 
-module.exports = { isConfigured, createPresignedUpload, deleteObject, headObject, generateKey };
+/**
+ * List all objects in the bucket (optionally filtered by prefix).
+ */
+async function listObjects(prefix, maxKeys) {
+  const s3 = getClient();
+  if (!s3) throw new Error('R2 is not configured');
+
+  var allKeys = [];
+  var continuationToken = undefined;
+  do {
+    var params = { Bucket: BUCKET, MaxKeys: maxKeys || 1000 };
+    if (prefix) params.Prefix = prefix;
+    if (continuationToken) params.ContinuationToken = continuationToken;
+    var result = await s3.send(new ListObjectsV2Command(params));
+    if (result.Contents) {
+      result.Contents.forEach(function(obj) {
+        allKeys.push({ key: obj.Key, size: obj.Size, lastModified: obj.LastModified });
+      });
+    }
+    continuationToken = result.IsTruncated ? result.NextContinuationToken : undefined;
+  } while (continuationToken);
+  return allKeys;
+}
+
+module.exports = { isConfigured, createPresignedUpload, deleteObject, headObject, listObjects, generateKey };
