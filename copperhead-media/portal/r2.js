@@ -47,9 +47,8 @@ function isConfigured() {
  */
 function generateKey(originalName, folder) {
   folder = folder || 'uploads';
-  const ext = path.extname(originalName).toLowerCase();
-  const id = crypto.randomBytes(12).toString('hex');
-  return `${folder}/${id}${ext}`;
+  const safeName = originalName.replace(/[^\w\s\-_.()@&]/g, '').trim();
+  return `${folder}/${safeName}`;
 }
 
 /**
