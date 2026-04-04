@@ -14,10 +14,17 @@
         tiktok: '<svg class="plat-svg" viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>'
     };
 
+    let r2Available = false;
+
     /* ── Init ──────────────────────────────────── */
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
         bindNav();
         $('#logoutBtn').addEventListener('click', logout);
+        // Check if R2 is configured
+        try {
+            var status = await api('/uploads/status');
+            r2Available = status && status.r2Configured;
+        } catch (e) { /* ignore */ }
         navigate('dashboard');
     });
 
@@ -171,6 +178,7 @@
        VIEW: Manage Assets
        ──────────────────────────────────────────── */
     async function renderManageAssets(el) {
+        var sizeHint = r2Available ? 'Images, videos, PDFs — no size limit (R2)' : 'Images, videos, PDFs — up to 100MB each';
         el.innerHTML =
             '<div class="view-header">' +
                 '<h2>Manage Assets</h2>' +
@@ -182,21 +190,17 @@
             '<div class="dropzone" id="adminDropzone">' +
                 '<svg viewBox="0 0 24 24" width="40" height="40"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>' +
                 '<p>Drop files here to upload</p>' +
-                '<span class="dropzone-hint">Images, videos, PDFs - up to 100MB each</span>' +
+                '<span class="dropzone-hint">' + sizeHint + '</span>' +
             '</div>' +
+            '<div id="uploadProgress"></div>' +
             '<div class="asset-grid" id="adminAssetGrid">Loading...</div>';
 
         var fileInput = $('#fileInput');
         $('#adminUploadBtn').addEventListener('click', function() { fileInput.click(); });
         fileInput.onchange = async function() {
             if (fileInput.files.length === 0) return;
-            for (var i = 0; i < fileInput.files.length; i++) {
-                var form = new FormData();
-                form.append('file', fileInput.files[i]);
-                await fetch(API + '/assets', { method: 'POST', body: form });
-            }
+            await uploadFiles(Array.from(fileInput.files));
             fileInput.value = '';
-            await loadAdminAssets();
         };
 
         var dz = $('#adminDropzone');
@@ -205,15 +209,129 @@
         dz.addEventListener('drop', async function(e) {
             e.preventDefault();
             dz.classList.remove('dragover');
-            for (var i = 0; i < e.dataTransfer.files.length; i++) {
-                var form = new FormData();
-                form.append('file', e.dataTransfer.files[i]);
-                await fetch(API + '/assets', { method: 'POST', body: form });
-            }
-            await loadAdminAssets();
+            await uploadFiles(Array.from(e.dataTransfer.files));
         });
 
         await loadAdminAssets();
+    }
+
+    /**
+     * Upload files — uses R2 presigned URLs when available, falls back to local.
+     * Shows per-file progress.
+     */
+    async function uploadFiles(files) {
+        var progressEl = $('#uploadProgress');
+        if (!progressEl) return;
+
+        progressEl.innerHTML = files.map(function(f, i) {
+            return '<div class="upload-item" id="upload-' + i + '">' +
+                '<span class="upload-name">' + esc(f.name) + '</span>' +
+                '<span class="upload-size">' + formatBytes(f.size) + '</span>' +
+                '<div class="upload-bar-wrap"><div class="upload-bar" id="bar-' + i + '"></div></div>' +
+                '<span class="upload-status" id="status-' + i + '">Waiting...</span>' +
+            '</div>';
+        }).join('');
+
+        for (var i = 0; i < files.length; i++) {
+            var statusEl = $('#status-' + i);
+            var barEl = $('#bar-' + i);
+            try {
+                if (r2Available) {
+                    await uploadToR2(files[i], barEl, statusEl);
+                } else {
+                    await uploadLocal(files[i], barEl, statusEl);
+                }
+            } catch (err) {
+                if (statusEl) statusEl.textContent = 'Failed';
+                if (statusEl) statusEl.style.color = '#e74c3c';
+                console.error('Upload error:', err);
+            }
+        }
+
+        await loadAdminAssets();
+
+        // Clear progress after a moment
+        setTimeout(function() {
+            if (progressEl) progressEl.innerHTML = '';
+        }, 3000);
+    }
+
+    async function uploadToR2(file, barEl, statusEl) {
+        // 1. Get presigned URL
+        if (statusEl) statusEl.textContent = 'Requesting URL...';
+        var presign = await api('/uploads/presign', {
+            method: 'POST',
+            body: JSON.stringify({ filename: file.name, contentType: file.type || 'application/octet-stream', folder: 'uploads' })
+        });
+        if (!presign || !presign.uploadUrl) throw new Error('Failed to get presigned URL');
+
+        // 2. Upload directly to R2 with progress
+        if (statusEl) statusEl.textContent = 'Uploading...';
+        await new Promise(function(resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('PUT', presign.uploadUrl, true);
+            xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+
+            xhr.upload.onprogress = function(e) {
+                if (e.lengthComputable && barEl) {
+                    var pct = (e.loaded / e.total * 100).toFixed(1);
+                    barEl.style.width = pct + '%';
+                    if (statusEl) statusEl.textContent = pct + '%';
+                }
+            };
+
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) resolve();
+                else reject(new Error('R2 upload failed: ' + xhr.status));
+            };
+            xhr.onerror = function() { reject(new Error('Network error during R2 upload')); };
+            xhr.send(file);
+        });
+
+        // 3. Register asset in our DB
+        if (statusEl) statusEl.textContent = 'Finishing...';
+        await api('/assets/r2', {
+            method: 'POST',
+            body: JSON.stringify({
+                key: presign.key,
+                original_name: file.name,
+                file_type: file.type || 'application/octet-stream',
+                file_size: file.size,
+                public_url: presign.publicUrl
+            })
+        });
+
+        if (barEl) barEl.style.width = '100%';
+        if (statusEl) { statusEl.textContent = 'Done'; statusEl.style.color = '#5cb87a'; }
+    }
+
+    async function uploadLocal(file, barEl, statusEl) {
+        if (statusEl) statusEl.textContent = 'Uploading...';
+        var form = new FormData();
+        form.append('file', file);
+
+        await new Promise(function(resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', API + '/assets', true);
+
+            xhr.upload.onprogress = function(e) {
+                if (e.lengthComputable && barEl) {
+                    var pct = (e.loaded / e.total * 100).toFixed(1);
+                    barEl.style.width = pct + '%';
+                    if (statusEl) statusEl.textContent = pct + '%';
+                }
+            };
+
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) resolve();
+                else reject(new Error('Upload failed: ' + xhr.status));
+            };
+            xhr.onerror = function() { reject(new Error('Network error')); };
+            xhr.send(form);
+        });
+
+        if (barEl) barEl.style.width = '100%';
+        if (statusEl) { statusEl.textContent = 'Done'; statusEl.style.color = '#5cb87a'; }
     }
 
     async function loadAdminAssets() {
@@ -229,11 +347,12 @@
         grid.innerHTML = assets.map(function(a) {
             var isImage = a.file_type && a.file_type.startsWith('image');
             var isVideo = a.file_type && a.file_type.startsWith('video');
+            var src = a.url || ('/uploads/' + a.filename);
             var preview;
             if (isImage) {
-                preview = '<img src="/uploads/' + a.filename + '" alt="' + esc(a.original_name) + '" loading="lazy">';
+                preview = '<img src="' + esc(src) + '" alt="' + esc(a.original_name) + '" loading="lazy">';
             } else if (isVideo) {
-                preview = '<video src="/uploads/' + a.filename + '" muted></video>';
+                preview = '<video src="' + esc(src) + '" muted></video>';
             } else {
                 preview = '<div class="file-icon"><svg class="plat-svg" viewBox="0 0 24 24" style="width:28px;height:28px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>';
             }
@@ -241,7 +360,7 @@
                 '<div class="asset-preview">' + preview + '</div>' +
                 '<div class="asset-info">' +
                     '<span class="asset-name" title="' + esc(a.original_name) + '">' + esc(truncate(a.original_name, 24)) + '</span>' +
-                    '<span class="asset-size">' + formatBytes(a.file_size) + '</span>' +
+                    '<span class="asset-size">' + formatBytes(a.file_size) + (a.storage === 'r2' ? ' · R2' : '') + '</span>' +
                 '</div>' +
                 '<button class="asset-delete" data-id="' + a.id + '" title="Delete">' +
                     '<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>' +

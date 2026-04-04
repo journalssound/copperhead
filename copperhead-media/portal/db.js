@@ -315,6 +315,8 @@ const db = {
       original_name: data.original_name,
       file_type: data.file_type,
       file_size: data.file_size || 0,
+      url: data.url || null,
+      storage: data.storage || 'local',
       uploaded_at: now()
     };
     assets.push(asset);

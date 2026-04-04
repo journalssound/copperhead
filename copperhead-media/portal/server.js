@@ -4,6 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const db = require('./db');
+const r2 = require('./r2');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -65,12 +66,11 @@ const upload = multer({
 
 // ──────────────────────────────────────────
 // Auth — supports client + admin roles
-// Client:  journals. / peepeepoopoo
-// Admin:   journals.@admin / gingershavesouls
 // ──────────────────────────────────────────
 const ACCOUNTS = [
   { username: 'journals.', password: 'peepeepoopoo', role: 'client' },
-  { username: 'journals.@admin', password: 'gingershavesouls', role: 'admin' }
+  { username: 'journals.@admin', password: 'gingershavesouls', role: 'admin' },
+  { username: 'admin', password: 'copperhead', role: 'admin' }
 ];
 
 function requireAuth(req, res, next) {
@@ -185,6 +185,52 @@ app.get('/api/analytics/summary', requireAuth, (req, res) => {
 });
 
 // ──────────────────────────────────────────
+// R2 Presigned Upload API
+// ──────────────────────────────────────────
+app.post('/api/uploads/presign', requireAuth, async (req, res) => {
+  if (!r2.isConfigured()) {
+    return res.status(503).json({ error: 'R2 storage is not configured' });
+  }
+  const { filename, contentType, folder } = req.body;
+  if (!filename || !contentType) {
+    return res.status(400).json({ error: 'filename and contentType are required' });
+  }
+  try {
+    const result = await r2.createPresignedUpload({
+      originalName: filename,
+      contentType,
+      folder: folder || 'uploads',
+    });
+    res.json(result);
+  } catch (err) {
+    console.error('Presign error:', err);
+    res.status(500).json({ error: 'Failed to create upload URL' });
+  }
+});
+
+// Confirm an upload completed — verifies the object exists in R2
+app.post('/api/uploads/confirm', requireAuth, async (req, res) => {
+  if (!r2.isConfigured()) {
+    return res.status(503).json({ error: 'R2 storage is not configured' });
+  }
+  const { key } = req.body;
+  if (!key) return res.status(400).json({ error: 'key is required' });
+  try {
+    const info = await r2.headObject(key);
+    if (!info.exists) return res.status(404).json({ error: 'Object not found in R2' });
+    res.json({ success: true, size: info.size, contentType: info.contentType });
+  } catch (err) {
+    console.error('Confirm error:', err);
+    res.status(500).json({ error: 'Failed to verify upload' });
+  }
+});
+
+// R2 status check
+app.get('/api/uploads/status', requireAuth, (req, res) => {
+  res.json({ r2Configured: r2.isConfigured() });
+});
+
+// ──────────────────────────────────────────
 // Assets API
 // ──────────────────────────────────────────
 app.get('/api/assets', requireAuth, (req, res) => {
@@ -192,6 +238,7 @@ app.get('/api/assets', requireAuth, (req, res) => {
   res.json(assets);
 });
 
+// Legacy local upload (kept as fallback when R2 is not configured)
 app.post('/api/assets', requireAuth, upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
   const asset = db.createAsset({
@@ -203,11 +250,32 @@ app.post('/api/assets', requireAuth, upload.single('file'), (req, res) => {
   res.json(asset);
 });
 
-app.delete('/api/assets/:id', requireAuth, (req, res) => {
+// Register an R2 asset after presigned upload completes
+app.post('/api/assets/r2', requireAuth, (req, res) => {
+  const { key, original_name, file_type, file_size, public_url } = req.body;
+  if (!key || !original_name) {
+    return res.status(400).json({ error: 'key and original_name are required' });
+  }
+  const asset = db.createAsset({
+    filename: key,
+    original_name,
+    file_type: file_type || 'application/octet-stream',
+    file_size: file_size || 0,
+    url: public_url || null,
+    storage: 'r2'
+  });
+  res.json(asset);
+});
+
+app.delete('/api/assets/:id', requireAuth, async (req, res) => {
   const asset = db.getAsset(req.params.id);
   if (asset) {
-    const filePath = path.join(uploadsDir, asset.filename);
-    if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    if (asset.storage === 'r2' && r2.isConfigured()) {
+      try { await r2.deleteObject(asset.filename); } catch (e) { console.error('R2 delete error:', e); }
+    } else {
+      const filePath = path.join(uploadsDir, asset.filename);
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    }
     db.deleteAsset(req.params.id);
   }
   res.json({ success: true });
