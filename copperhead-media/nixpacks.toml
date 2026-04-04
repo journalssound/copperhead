@@ -2,7 +2,7 @@
 nixPkgs = ["nodejs_20", "npm"]
 
 [phases.install]
-cmds = ["npm install"]
+cmds = ["npm install --no-package-lock"]
 
 [start]
 cmd = "node portal/server.js"
